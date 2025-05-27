@@ -1,18 +1,67 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const autoprefixer = require('gulp-autoprefixer');
-const rename = require("gulp-rename");
-const cleanCSS = require('gulp-clean-css');
-const del = require('del');
-const browsersync = require('browser-sync').create();
-const uglify = require('gulp-uglify');
-const wait = require('gulp-wait');
-const critical = require('critical').stream;
-const useref = require('gulp-useref');
-const gulpif = require('gulp-if');
+const _default = defaultTask;
+export { _default as default };
+
+
+import { src, dest, watch as __watch, series, parallel } from 'gulp';
+// import sass, { logError } from 'gulp-sass';
+// import sass from 'gulp-sass';
+import gulpSass from 'gulp-sass';
+import dartSass from 'sass';
+
+
+// import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass)
+
+import logError from 'gulp-sass';
+
+import autoprefixer from 'gulp-autoprefixer';
+import rename from "gulp-rename";
+import cleanCSS from 'gulp-clean-css';
+import { deleteAsync } from 'del';
+const del = deleteAsync;
+
+// /*
+// import sass, { logError } from 'gulp-sass';
+//                ^^^^^^^^
+// SyntaxError: Named export 'logError' not found. The requested module 'gulp-sass' is a CommonJS module, which may not support all module.exports as named exports.
+// CommonJS modules can always be imported via the default export, for example using:
+
+// import pkg from 'gulp-sass';
+// const { logError } = pkg;
+
+// */
+
+import browserSync from 'browser-sync';
+const browserSyncInst = browserSync.create();
+
+// const browserSyncInst = require('browser-sync').create();
+import uglify from 'gulp-uglify';
+import wait from 'gulp-wait';
+import { stream as critical } from 'critical';
+import useref from 'gulp-useref';
+import gulpif from 'gulp-if';
+
+import phpConnect from 'gulp-connect-php';
 
 // Initialize
 // =============================================================================
+
+function defaultTask(cb) {
+    console.log("DEFAULT TASK\n");
+    // place code for your default task here
+    cb();
+}
+
+// Start PHP server
+function phpServer() {
+    return phpConnect.server({
+        base: 'src',
+        port: 8090,
+        keepalive: true,
+        files: ['./**/*.php', './**/*.phtml'],
+        // index: '/index.phtml',
+    });
+}
 
 // Clean dist
 function cleanDist() {
@@ -26,75 +75,99 @@ function cleanVendor() {
 
 // Populate vendor (src)
 function populateVendor() {
-    return gulp.src([
-            'node_modules/materialize-css/dist/js/materialize.min.js',
-            'node_modules/materialize-css/sass/components/**/*',
-            'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/echarts/dist/echarts.min.js',
-            'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
-            'node_modules/@fortawesome/fontawesome-free/webfonts/**/*',
-            'node_modules/simplebar/dist/simplebar.min.js',
-            'node_modules/simplebar/dist/simplebar.min.css',
-            'node_modules/aos/dist/aos.js',
-            'node_modules/aos/dist/aos.css',
-            'node_modules/headroom.js/dist/headroom.min.js'
-        ], {
-            base: 'node_modules/'
-        })
-        .pipe(gulp.dest('src/vendor/'));
+    return src([
+        'node_modules/materialize-css/dist/js/materialize.min.js',
+        'node_modules/materialize-css/sass/components/**/*',
+        'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/echarts/dist/echarts.min.js',
+        'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
+        'node_modules/@fortawesome/fontawesome-free/webfonts/**/*',
+        'node_modules/simplebar/dist/simplebar.min.js',
+        'node_modules/simplebar/dist/simplebar.min.css',
+        'node_modules/aos/dist/aos.js',
+        'node_modules/aos/dist/aos.css',
+        'node_modules/headroom.js/dist/headroom.min.js'
+    ], {
+        base: 'node_modules/'
+    })
+        .pipe(dest('src/vendor/'));
 }
 
 // Copy images to dist
 function copyImages() {
-    return gulp.src('src/images/**/*')
-        .pipe(gulp.dest('dist/images'));
+    return src('src/images/**/*')
+        .pipe(dest('dist/images'));
 }
 
 // Copy vendor to dist
 function copyVendor() {
-    return gulp.src('src/vendor/**/*')
-        .pipe(gulp.dest('dist/vendor'));
+    return src('src/vendor/**/*')
+        .pipe(dest('dist/vendor'));
 }
 
 // Copy Html to dist
 function copyHtml() {
-    return gulp.src('src/*.html')
-        .pipe(gulp.dest('dist'));
+    return src('src/*.html')
+        .pipe(dest('dist'));
 }
 
 // Development
 // =============================================================================
 
 // Static server (src)
-function browserSyncSrc(cb) {
-    browsersync.init({
+function browserSyncFile(cb, index_file) {
+    browserSyncInst.init({
         server: {
-            baseDir: "src"
+            baseDir: "src",
+            index: index_file,
         },
         open: "external"
     });
     cb();
 }
 
+function browserSyncSrcStatic(cb) {
+    return browserSyncFile(cb, "index.html");
+}
+
+function browserSyncSrcPhp(cb) {
+    // gulpSass.watch("src/sass/**/*.scss", series(compileSass));
+    // gulpSass.watch(["src/js/**/*.js"], series(browserReload));
+    // gulpSass.watch("src/*.html", series(browserReload));
+    browserSyncInst.init({
+        proxy: 'http://localhost:8090/',
+        // baseDir: "src",
+        open: "external",
+        notify: false,
+        // files: ['./**/*.php', './**/*.phtml'],
+    });
+
+    cb();
+
+
+}
+
 // Browser reload
 function browserReload(cb) {
-    browsersync.reload();
+    browserSyncInst.reload();
     cb(); // Signal completion
 }
 
 // Compile Sass files
 function compileSass() {
-    return gulp.src('src/sass/developerportfolio.scss')
-        .pipe(sass().on('error', sass.logError)) // Compile to CSS
-        .pipe(gulp.dest('src/css/')) // Save to src
-        .pipe(browsersync.stream()); // Inject changes without refreshing the page.
+    return src('src/sass/developerportfolio.scss')
+        .pipe(sass().on('error', logError)) // Compile to CSS
+        .pipe(dest('src/css/')) // Save to src
+        .pipe(browserSyncInst.stream()); // Inject changes without refreshing the page.
 }
 
 // Watch scss/js/html/ files
 function watchFiles() {
-    gulp.watch("src/sass/**/*.scss", gulp.series(compileSass));
-    gulp.watch(["src/js/**/*.js"], gulp.series(browserReload));
-    gulp.watch("src/*.html", gulp.series(browserReload));
+    console.log("\n-- Watch files --\n");
+    __watch("src/sass/**/*.scss", series(compileSass));
+    __watch(["src/js/**/*.js"], series(browserReload));
+    // __watch("src/*.html", series(browserReload));
+    __watch(['src/**/*.phtml', 'src/**/*.php'], browserReload); // Reload on PHP changes
 }
 
 // Production
@@ -102,80 +175,88 @@ function watchFiles() {
 
 // CSS optimization
 function css() {
-    return gulp.src('src/css/*.css')
+    return src('src/css/*.css')
         .pipe(autoprefixer({
             cascade: false
         })) // Add vendor prefixes
         .pipe(cleanCSS({
             compatibility: 'ie8'
         })) // Minify CSS
-        .pipe(gulp.dest('dist/css/'));
+        .pipe(dest('dist/css/'));
 }
 
 // JS optimization
 function js() {
-    return gulp.src('src/js/*.js')
+    return src('src/js/*.js')
         .pipe(uglify()) // Minify JS
-        .pipe(gulp.dest('dist/js/'));
+        .pipe(dest('dist/js/'));
 }
 
 // Critical CSS
 function criticalCSS() {
-    return gulp.src('dist/*.html')
+    return src('dist/*.html')
         .pipe(
             critical({
                 inline: true,
                 base: 'dist/',
                 // ignore: ['@font-face'],
                 dimensions: [{
-                        // 9:16 (Mobile)
-                        height: 1022,
-                        width: 575,
-                    },
-                    {
-                        // 9:16 (Tablet)
-                        height: 1364,
-                        width: 767,
-                    },
-                    {
-                        // 9:16 (Tablet)
-                        height: 1762,
-                        width: 991,
-                    },
-                    {
-                        // 9:16 (Tablet)
-                        height: 2132,
-                        width: 1199,
-                    },
-                    {
-                        // 9:16 (Tablet)
-                        height: 2132,
-                        width: 1199,
-                    },
-                    {
-                        // 3:2 (Desktop)
-                        height: 800,
-                        width: 1200,
-                    },
+                    // 9:16 (Mobile)
+                    height: 1022,
+                    width: 575,
+                },
+                {
+                    // 9:16 (Tablet)
+                    height: 1364,
+                    width: 767,
+                },
+                {
+                    // 9:16 (Tablet)
+                    height: 1762,
+                    width: 991,
+                },
+                {
+                    // 9:16 (Tablet)
+                    height: 2132,
+                    width: 1199,
+                },
+                {
+                    // 9:16 (Tablet)
+                    height: 2132,
+                    width: 1199,
+                },
+                {
+                    // 3:2 (Desktop)
+                    height: 800,
+                    width: 1200,
+                },
                 ]
             })
         )
         .on('error', function (err) {
             document(error);
         })
-        .pipe(gulp.dest('dist/'));
+        .pipe(dest('dist/'));
 }
 
 // Tasks
 // =============================================================================
 
 // Define tasks
-const init = gulp.series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtml);
+const init = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtml);
 // const build = gulp.series(init, compileSass, css, js, criticalCSS);
-const build = gulp.series(init, compileSass, css, js);
-const watch = gulp.series(build, gulp.parallel(watchFiles, browserSyncSrc));
+const build = series(init, compileSass, css, js);
+const watch = series(build, parallel(watchFiles, browserSyncSrcStatic));
+// const watchPhp = series(build, parallel(watchFiles, browserSyncSrcPhp));
+const watchPhp = series(build, browserSyncSrcPhp, phpServer, watchFiles);
 
 // Register public tasks
-exports.init = init;
-exports.build = build;
-exports.watch = watch;
+const _init = init;
+export { _init as init };
+const _build = build;
+export { _build as build };
+const _watch = watch;
+export { _watch as watch };
+
+const _watchPhp = watchPhp;
+export { _watchPhp as watchPhp };
