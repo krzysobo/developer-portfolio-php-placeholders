@@ -1060,14 +1060,17 @@
                                     srcset="https://via.placeholder.com/75 1x, https://via.placeholder.com/150 2x"
                                     alt="..." draggable="false" loading="lazy" width="75" height="75">
                             </div>
-                            <div class="basic-card__primary card-primary p-0">
-                                <p class="card-title pb-8">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
-                                    reprehenderit dicta quisquam.</p>
-                            </div>
-                            <div class="card-secondary p-0">
-                                John Smith, CEO, Wire Inc.
-                            </div>
+                            <?php $testimonials = $portfolio->getTestimonials();
+                            $testimonials_last_i = count($testimonials) - 1;
+                            foreach($testimonials as $i => $item): ?>
+                                <div class="basic-card__primary card-primary p-0">
+                                    <p class="card-title pb-8"><?= $item["desc"]; ?></p>
+                                </div>
+                                <div class="card-secondary p-0 <?php if($i < $testimonials_last_i): ?>mb-30<?php endif; ?>">
+                                    <?= $item["person"]; ?>
+                                </div>
+
+                            <?php endforeach; ?>
                         </div>
 
                     </div>
@@ -1094,88 +1097,43 @@
                     <div class="col s12 px-0">
                         <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getEducation(); ?></h2>
                         <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
-                            <article>
-                                <div class="horizontal-card card">
-                                    <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                            src="images/education-01.png"
-                                            srcset="images/education-01.png 1x, images/education-01@2x.png 2x"
-                                            alt="Company logo" draggable="false" loading="lazy" width="42"
-                                            height="42"></a>
-                                    <div class="card-content">
-                                        <div class="horizontal-card__primary card-primary">
-                                            <h3 class="card-title card-title activator">M.Sc. Computer Science</h3>
-                                            <h4 class="card-subtitle">ETH Zürich</h4>
+                            <?php foreach($portfolio->getEduHistory() as $item): ?>
+                                <article>
+                                    <div class="horizontal-card card">
+                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
+                                                src="<?= $item["imageSrc"]; ?>"
+                                                srcset="<?= $item["imageSrcSet"]; ?>"
+                                                alt="Company logo" draggable="false" loading="lazy" width="42"
+                                                height="42"></a>
+                                        <div class="card-content">
+                                            <div class="horizontal-card__primary card-primary">
+                                                <h3 class="card-title card-title activator"><?= $item["eduTitle"]; ?></h3>
+                                                <h4 class="card-subtitle"><?= $item["eduSchool"]; ?></h4>
+                                            </div>
+                                            <div class="card-secondary">
+                                                <?= $item["eduClue"]; ?>
+                                                <br>
+                                                <?= date('M Y', mktime(0,0,0, $item["eduYearMonthFrom"][1], 1, $item["eduYearMonthFrom"][0])); ?> - <?= date('M Y', mktime(0,0,0, $item["eduYearMonthTo"][1], 1, $item["eduYearMonthTo"][0])); ?>
+
+                                            </div>
+                                            <button
+                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
+                                                    class="fas fa-ellipsis-v"></i></button>
                                         </div>
-                                        <div class="card-secondary">
-                                            Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-                                            itaque.”<br>
-                                            Sep 2012 - Jun 2014
+                                        <div class="card-reveal" data-simplebar>
+                                            <div class="horizontal-card__primary card-primary">
+                                                <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                            </div>
+                                            <div class="card-secondary">
+                                                <?= $item["moreInfoDesc"]; ?>
+                                            </div>
+                                            <button
+                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
+                                                    class="fas fa-times"></i></button>
                                         </div>
-                                        <button
-                                            class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                class="fas fa-ellipsis-v"></i></button>
                                     </div>
-                                    <div class="card-reveal" data-simplebar>
-                                        <div class="horizontal-card__primary card-primary">
-                                            <h3 class="card-title">Lorem Ipsum</h3>
-                                        </div>
-                                        <div class="card-secondary">
-                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
-                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
-                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
-                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
-                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
-                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
-                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.
-                                        </div>
-                                        <button
-                                            class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </article>
-                            <article>
-                                <div class="horizontal-card card">
-                                    <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                            src="images/education-02.png"
-                                            srcset="images/education-02.png 1x, images/education-02@2x.png 2x"
-                                            alt="Company logo" draggable="false" loading="lazy" width="42"
-                                            height="42"></a>
-                                    <div class="card-content">
-                                        <div class="horizontal-card__primary card-primary">
-                                            <h3 class="card-title card-title activator">B.Sc. Computer Science</h3>
-                                            <h4 class="card-subtitle">The University of Tokyo</h4>
-                                        </div>
-                                        <div class="card-secondary">
-                                            Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-                                            itaque.”<br>
-                                            Sep 2008 - Jun 2012
-                                        </div>
-                                        <button
-                                            class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                class="fas fa-ellipsis-v"></i></button>
-                                    </div>
-                                    <div class="card-reveal" data-simplebar>
-                                        <div class="horizontal-card__primary card-primary">
-                                            <h3 class="card-title">Lorem Ipsum</h3>
-                                        </div>
-                                        <div class="card-secondary">
-                                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
-                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
-                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
-                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
-                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
-                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
-                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.
-                                        </div>
-                                        <button
-                                            class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </article>
+                                </article>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

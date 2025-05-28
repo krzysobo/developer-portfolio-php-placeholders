@@ -19,7 +19,7 @@ class PortfolioLabels
     private $resumeFile          = "RESUME";
     private $email               = "Email";
     private $showMore            = "Show more";
-    private $backToTop            = "Back to top";
+    private $backToTop           = "Back to top";
     private $pageTitle           = "";
     private $pageMetaDescription = "";
 
@@ -36,11 +36,8 @@ class PortfolioLabels
 
     private $consentInfo = "";
 
-    private $myWork = "My work";
+    private $myWork    = "My work";
     private $contactMe = "Contact me";
-
-
-
 
 }
 
@@ -49,7 +46,7 @@ class PortfolioPlaceHolders
     use Soboutils\SoboSingletonTrait;
     use Soboutils\ExactAccessorMethodTrait;
 
-    private $fullName = "";
+    private $fullName      = "";
     private $copyrightLine = "© 2025 Your Name. All rights reserved.";
 
     private $aboutMeFirstLine   = "";
@@ -80,6 +77,20 @@ class PortfolioPlaceHolders
     private $logoUrl        = "";
     private $logoUrlSrcSet  = "";
     private $coverImageUrl  = "";
+
+    private $eduHistory = [];
+
+    private $testimonials = [];
+
+    public function addEduHistoryItem($item)
+    {
+        $this->eduHistory[] = $item;
+    }
+
+    public function addTestimonialItem($item)
+    {
+        $this->testimonials[] = $item;
+    }
 
     // booleans
     private $showContactForm = true;
@@ -158,6 +169,64 @@ function set_portfolio_data(): PortfolioPlaceHolders
 
     // $portfolio->setShowContactForm(false);
 
+    $portfolio->addEduHistoryItem([
+        "imageSrc"         => "images/education-01.png",
+        "imageSrcSet"      => "images/education-01.png 1x, images/education-01@2x.png 2x",
+        "eduTitle"         => "M.Sc. Computer Science",
+        "eduSchool"        => "ETH Zürich",
+        "eduClue"          => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.“",
+        "eduYearMonthFrom" => [2012, 9],
+        "eduYearMonthTo"   => [2014, 6],
+
+        "moreInfoTitle"    => "Lorem Ipsum",
+        "moreInfoDesc"     => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+
+    $portfolio->addEduHistoryItem([
+        "imageSrc"         => "images/education-02.png",
+        "imageSrcSet"      => "images/education-02.png 1x, images/education-02@2x.png 2x",
+        "eduTitle"         => "B.Sc. Computer Science",
+        "eduSchool"        => "The University of Tokyo",
+        "eduClue"          => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.”",
+        "eduYearMonthFrom" => [2008, 9],
+        "eduYearMonthTo"   => [2012, 6],
+
+        "moreInfoTitle"    => "Lorem Ipsum",
+        "moreInfoDesc"     => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+
+    $portfolio->addTestimonialItem(
+        [
+            "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
+                                    reprehenderit dicta quisquam.",
+            "person" => "John Smith, CEO, Wire Inc.",
+        ]
+    );
+
+    $portfolio->addTestimonialItem(
+        [
+            "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
+                                    reprehenderit dicta quisquam.",
+            "person" => "Agnes Jackson, CTO, Acme Computers Ltd.",
+        ],                                       
+    );
+
     return $portfolio;
 }
 
@@ -168,7 +237,7 @@ function set_portfolio_labels()
     $lb->setPageMetaDescription("Personal portfolio template based on Google Material Design guidelines");
 
     $privacyPolicyUrl = "/privacy-policy/";
-    $consentText = str_replace("[PRIVACY_POLICY_URL]", $privacyPolicyUrl, $lb->getConsentInfoTpl());
+    $consentText      = str_replace("[PRIVACY_POLICY_URL]", $privacyPolicyUrl, $lb->getConsentInfoTpl());
     $lb->setConsentInfo($privacyPolicyUrl);
 
     return $lb;
