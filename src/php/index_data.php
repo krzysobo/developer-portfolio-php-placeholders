@@ -14,6 +14,7 @@ class PortfolioPlaceHolders
     private $aboutMeSecondLine  = "";
     private $aboutMeDescription = "";
     private $moreAboutMe        = "";
+    private $contactDescription = "";
 
     // social sites logins
     private $email     = "";
@@ -34,6 +35,8 @@ class PortfolioPlaceHolders
 
     // files
     private $resumeFilePath = "";
+
+    private $showContactForm = true;
 
     public function makeSocialUrls()
     {
@@ -89,17 +92,22 @@ function set_portfolio_data(): PortfolioPlaceHolders
 
     $portfolio->setResumeFilePath("images/dummy.pdf");
 
-    // $portfolio->setEmail("name@example.com");
-    // $portfolio->setPhone("+1-202-555-0124");
+    $portfolio->setEmail("name@example.com");
+    $portfolio->setPhone("+1-202-555-0124");
 
     $portfolio->setGitHub("username");
     $portfolio->setLinkedIn("username");
-    // $portfolio->setMessenger("username");
-    // $portfolio->setSkype("username");
-    // $portfolio->setTelegram("username");
-
+    $portfolio->setMessenger("username");
+    $portfolio->setSkype("username");
+    $portfolio->setTelegram("username");
 
     $portfolio->makeSocialUrls();
+
+    $portfolio->setContactDescription("Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur debitis magnam
+                            perferendis quis fugiat porro saepe. Fugit adipisci cupiditate corrupti maiores dicta quas
+                            in nobis eius recusandae?");
+
+    // $portfolio->setShowContactForm(false);
 
     return $portfolio;
 }

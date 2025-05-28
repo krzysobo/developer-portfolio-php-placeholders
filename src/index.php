@@ -1177,60 +1177,61 @@
                         <h2 data-aos="fade-up" data-aos-once="true" class="contact-section__title section__title">
                             Contact</h2>
                         <p data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="contact-section__text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur debitis magnam
-                            perferendis quis fugiat porro saepe. Fugit adipisci cupiditate corrupti maiores dicta quas
-                            in nobis eius recusandae?</p>
+                            <?= $portfolio->getContactDescription(); ?>
+                        </p>
                         <div data-aos="fade-up" data-aos-delay="200" data-aos-once="true" class="row mb-0">
+                            <?php if($portfolio->getShowContactForm()): ?>
                             <div class="contact-section__left col s12 l7">
-                                <!-- Form -->
-                                <form class="form" action="https://formspree.io/$YOUR_EMAIL" method="POST">
-                                    <p class="form__required-text">*Required fields</p>
-                                    <div class="row mb-0">
-                                        <div class="input-field col s12">
-                                            <input id="name" type="text" class="validate mb-0" name="name" required>
-                                            <label for="name"><span>*</span>Name</label>
+                                    <!-- Form -->
+                                    <form class="form" action="https://formspree.io/$YOUR_EMAIL" method="POST">
+                                        <p class="form__required-text">*Required fields</p>
+                                        <div class="row mb-0">
+                                            <div class="input-field col s12">
+                                                <input id="name" type="text" class="validate mb-0" name="name" required>
+                                                <label for="name"><span>*</span>Name</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-0">
-                                        <div class="input-field col s12">
-                                            <input id="email" type="email" class="validate mb-0" name="_replyto"
-                                                required>
-                                            <label for="email"><span>*</span>Email</label>
+                                        <div class="row mb-0">
+                                            <div class="input-field col s12">
+                                                <input id="email" type="email" class="validate mb-0" name="_replyto"
+                                                    required>
+                                                <label for="email"><span>*</span>Email</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-0">
-                                        <div class="input-field col s12">
-                                            <input id="subject" type="text" class="validate mb-0" name="subject"
-                                                required>
-                                            <label for="subject"><span>*</span>Subject</label>
+                                        <div class="row mb-0">
+                                            <div class="input-field col s12">
+                                                <input id="subject" type="text" class="validate mb-0" name="subject"
+                                                    required>
+                                                <label for="subject"><span>*</span>Subject</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-0">
-                                        <div class="input-field col s12">
-                                            <textarea id="textarea" class="materialize-textarea validate mb-0"
-                                                name="message" required></textarea>
-                                            <label for="textarea"><span>*</span>Message</label>
+                                        <div class="row mb-0">
+                                            <div class="input-field col s12">
+                                                <textarea id="textarea" class="materialize-textarea validate mb-0"
+                                                    name="message" required></textarea>
+                                                <label for="textarea"><span>*</span>Message</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- Spam prevention -->
-                                    <div class="row mb-0" style="display:none">
-                                        <div class="input-field col s12 m-0">
-                                            <input type="text" name="_gotcha">
+                                        <!-- Spam prevention -->
+                                        <div class="row mb-0" style="display:none">
+                                            <div class="input-field col s12 m-0">
+                                                <input type="text" name="_gotcha">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p class="form__consent">
-                                        <label>
-                                            <input type="checkbox" class="filled-in" required>
-                                            <span>*I consent to have this website collect my submitted information so
-                                                they can respond to my inquiry. I have also read and agree to the <a
-                                                    href="#" target="_blank">Privacy Policy</a>.</span>
-                                        </label>
-                                    </p>
-                                    <button class="form__submit waves-effect waves-contained-btn btn-contained"
-                                        type="submit" name="action"><i
-                                            class="fas fa-paper-plane"></i>&nbsp;Submit</button>
-                                </form>
-                            </div>
+                                        <p class="form__consent">
+                                            <label>
+                                                <input type="checkbox" class="filled-in" required>
+                                                <span>*I consent to have this website collect my submitted information so
+                                                    they can respond to my inquiry. I have also read and agree to the <a
+                                                        href="#" target="_blank">Privacy Policy</a>.</span>
+                                            </label>
+                                        </p>
+                                        <button class="form__submit waves-effect waves-contained-btn btn-contained"
+                                            type="submit" name="action"><i
+                                                class="fas fa-paper-plane"></i>&nbsp;Submit</button>
+                                    </form>
+                                </div>
+                                <?php endif; ?>
                             <div class="contact-section__right col s12 l5">
                                 <div class="contact-links">
                                     <ul class="contact-links-list">
