@@ -3,12 +3,47 @@
 require_once "php/SoboSingletonTrait.php";
 require_once "php/ExactAccessorMethodTrait.php";
 
+class PortfolioLabels
+{
+    use Soboutils\SoboSingletonTrait;
+    use Soboutils\ExactAccessorMethodTrait;
+
+    private $contact             = "Contact";
+    private $about               = "About";
+    private $moreAboutMe         = "More About Me";
+    private $experience          = "Experience";
+    private $projects            = "Projects";
+    private $testimonials        = "Testimonials";
+    private $skills              = "Skills";
+    private $education           = "Education";
+    private $resumeFile          = "RESUME";
+    private $email               = "Email";
+    private $showMore            = "Show more";
+    private $backToTop            = "Back to top";
+    private $pageTitle           = "";
+    private $pageMetaDescription = "";
+
+    private $requiredFields = "Required fields";
+    private $name           = "Name";
+    private $subject        = "Subject";
+    private $message        = "Message";
+    private $submit         = "Submit";
+    private $phone          = "Phone";
+    private $privacyPolicy  = "Privacy Policy";
+
+    private $consentInfoTpl = " *I consent to have this website collect my submitted information so
+        they can respond to my inquiry. I have also read and agree to the <a href=\"[PRIVACY_POLICY_URL]\" target=\"_blank\">Privacy Policy</a>.";
+
+    private $consentInfo = "";
+}
+
 class PortfolioPlaceHolders
 {
     use Soboutils\SoboSingletonTrait;
     use Soboutils\ExactAccessorMethodTrait;
 
     private $fullName = "";
+    private $copyrightLine = "© 2025 Your Name. All rights reserved.";
 
     private $aboutMeFirstLine   = "";
     private $aboutMeSecondLine  = "";
@@ -35,7 +70,11 @@ class PortfolioPlaceHolders
 
     // files
     private $resumeFilePath = "";
+    private $logoUrl        = "";
+    private $logoUrlSrcSet  = "";
+    private $coverImageUrl  = "";
 
+    // booleans
     private $showContactForm = true;
 
     public function makeSocialUrls()
@@ -91,6 +130,9 @@ function set_portfolio_data(): PortfolioPlaceHolders
         ducimus impedit, eum earum nisi tempore nemo esse! Maiores, architecto?");
 
     $portfolio->setResumeFilePath("images/dummy.pdf");
+    $portfolio->setLogoUrl("images/logo-02.png");
+    $portfolio->setCoverImageUrl("images/cover.jpg");
+    $portfolio->setLogoUrlSrcSet("images/logo-02.png 1x, images/logo-02@2x.png 2x");
 
     $portfolio->setEmail("name@example.com");
     $portfolio->setPhone("+1-202-555-0124");
@@ -110,4 +152,17 @@ function set_portfolio_data(): PortfolioPlaceHolders
     // $portfolio->setShowContactForm(false);
 
     return $portfolio;
+}
+
+function set_portfolio_labels()
+{
+    $lb = PortfolioLabels::instance();
+    $lb->setPageTitle("Home | Developer Portfolio");
+    $lb->setPageMetaDescription("Personal portfolio template based on Google Material Design guidelines");
+
+    $privacyPolicyUrl = "/privacy-policy/";
+    $consentText = str_replace("[PRIVACY_POLICY_URL]", $privacyPolicyUrl, $lb->getConsentInfoTpl());
+    $lb->setConsentInfo($consentText);
+
+    return $lb;
 }

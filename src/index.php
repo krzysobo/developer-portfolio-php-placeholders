@@ -7,16 +7,17 @@
         error_reporting(E_ALL);
         require_once "php/index_data.php";
         $portfolio = set_portfolio_data();
+        $lb = set_portfolio_labels();
 
     ?>
 
 <head>
-    <title>Home | Developer Portfolio</title>
+    <title><?= $lb->getPageTitle(); ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Marios Sofokleous">
-    <meta name="description" content="Personal portfolio template based on Google Material Design guidelines">
+    <meta name="description" content="<?= $lb->getPageMetaDescription(); ?>">
     <meta name="theme-color" content="#004ba0">
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,26 +42,31 @@
             <button class="top-bar__sidenav-trigger sidenav-trigger btn-icon waves-effect waves-sidenav-btn"
                 data-target="sidenav" aria-label="Toggle navigation drawer"><i class="fas fa-bars"></i></button>
             <a data-aos="zoom-in" data-aos-duration="700" data-aos-once="true" class="top-bar__logo" href="."><img
-                    class="responsive-img" src="images/logo-02.png"
-                    srcset="images/logo-02.png 1x, images/logo-02@2x.png 2x" alt="Personal logo" draggable="false"></a>
+                    class="responsive-img" src="<?= $portfolio->getLogoUrl(); ?>"
+                    srcset="<?= $portfolio->getLogoUrlSrcSet(); ?>" alt="Personal logo" draggable="false"></a>
             <!-- <a data-aos="zoom-in" data-aos-duration="700" data-aos-once="true" class="top-bar__logotype" href=".">Olivia</a> -->
         </div>
         <nav class="top-bar__nav">
             <ul>
-                <li data-aos="fade-down" data-aos-duration="200" data-aos-once="true"><a href="#leadSection">About</a>
+                <li data-aos="fade-down" data-aos-duration="200" data-aos-once="true"><a href="#leadSection"><?= $lb->getAbout(); ?></a>
                 </li>
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="100" data-aos-once="true"><a
-                        href="#experienceSection">Experience</a></li>
+                        href="#experienceSection"><?= $lb->getExperience(); ?></a></li>
+
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="200" data-aos-once="true"><a
-                        href="#projectsSection">Projects</a></li>
+                        href="#projectsSection"><?= $lb->getProjects(); ?></a></li>
+
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="300" data-aos-once="true"><a
-                        href="#testimonialsSection">Testimonials</a></li>
+                        href="#testimonialsSection"><?= $lb->getTestimonials(); ?></a></li>
+
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="400" data-aos-once="true"><a
-                        href="#skillsSection">Skills</a></li>
+                        href="#skillsSection"><?= $lb->getSkills(); ?></a></li>
+
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="500" data-aos-once="true"><a
-                        href="#educationSection">Education</a></li>
+                        href="#educationSection"><?= $lb->getEducation(); ?></a></li>
+
                 <li data-aos="fade-down" data-aos-duration="200" data-aos-delay="600" data-aos-once="true"><a
-                        href="#contactSection">Contact</a></li>
+                        href="#contactSection"><?= $lb->getContact(); ?></a></li>
             </ul>
         </nav>
     </header>
@@ -75,26 +81,32 @@
         <nav class="sidenav__list">
             <ul>
                 <li><a class="sidenav__link waves-effect waves-surface" href="#leadSection"><i
-                            class="sidenav__icon fas fa-user"></i>About</a></li>
+                            class="sidenav__icon fas fa-user"></i><?= $lb->getAbout(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#experienceSection"><i
-                            class="sidenav__icon fas fa-briefcase"></i>Experience</a></li>
+                            class="sidenav__icon fas fa-briefcase"></i><?= $lb->getExperience(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#projectsSection"><i
-                            class="sidenav__icon fas fa-eye"></i>Projects</a></li>
+                            class="sidenav__icon fas fa-eye"></i><?= $lb->getProjects(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#testimonialsSection"><i
-                            class="sidenav__icon fas fa-comments"></i>Testimonials</a></li>
+                            class="sidenav__icon fas fa-comments"></i><?= $lb->getTestimonials(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#skillsSection"><i
-                            class="sidenav__icon fas fa-cog"></i>Skills</a></li>
+                            class="sidenav__icon fas fa-cog"></i><?= $lb->getSkills(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#educationSection"><i
-                            class="sidenav__icon fas fa-graduation-cap"></i>Education</a></li>
+                            class="sidenav__icon fas fa-graduation-cap"></i><?= $lb->getEducation(); ?></a></li>
+
                 <li><a class="sidenav__link waves-effect waves-surface" href="#contactSection"><i
-                            class="sidenav__icon fas fa-envelope"></i>Contact</a></li>
+                            class="sidenav__icon fas fa-envelope"></i><?= $lb->getContact(); ?></a></li>
             </ul>
         </nav>
     </aside>
     <!-- Parallax -->
     <div class="parallax-wrapper">
         <div class="parallax-container">
-            <div id="parallax" class="parallax"><img src="images/cover.jpg" alt=""></div>
+            <div id="parallax" class="parallax"><img src="<?= $portfolio->getCoverImageUrl(); ?>" alt=""></div>
         </div>
     </div>
     <main class="main">
@@ -140,7 +152,7 @@
                                 <div data-aos="zoom-in" data-aos-delay="1500" data-aos-duration="1000"
                                     data-aos-once="true" data-aos-offset="0" class="card-action-links d-flex">
                                     <a class="waves-effect waves-text-btn btn-text" href="<?php echo $portfolio->getResumeFilePath(); ?>"
-                                        target="_blank"><i class="fas fa-external-link-square-alt"></i>&nbsp;RESUME</a>
+                                        target="_blank"><i class="fas fa-external-link-square-alt"></i>&nbsp;<?= $lb->getResumeFile(); ?></a>
                                 </div>
                                 <div data-aos="zoom-in" data-aos-delay="1500" data-aos-duration="1000"
                                     data-aos-once="true" data-aos-offset="0" class="card-action-icons d-flex ml-auto">
@@ -163,7 +175,7 @@
                             </div>
                             <div class="card-reveal" data-simplebar>
                                 <div class="lead-card__primary card-primary">
-                                    <h2 class="card-title"><?= $portfolio->getFullName(); ?> - More About Me</h2>
+                                    <h2 class="card-title"><?= $portfolio->getFullName(); ?> - <?= $lb->getMoreAboutMe(); ?></h2>
                                 </div>
                                 <div class="card-secondary">
                                     <?php echo $portfolio->getMoreAboutMe(); ?>
@@ -181,7 +193,7 @@
             <div class="container">
                 <div class="row mb-0">
                     <div class="col s12 px-0">
-                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title">Experience</h2>
+                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getExperience(); ?></h2>
                         <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="timeline collapse">
                             <article class="timeline__box">
                                 <div class="timeline__wrapper">
@@ -444,7 +456,7 @@
                         </div>
                         <button id="showMoreExperience"
                             class="experience-section__show-more waves-effect waves-text-btn-on-background btn-text-on-background d-block mx-auto"><i
-                                class="fas fa-chevron-down"></i> Show more</button>
+                                class="fas fa-chevron-down"></i> <?= $lb->getShowMore(); ?></button>
                     </div>
                 </div>
             </div>
@@ -1184,32 +1196,32 @@
                             <div class="contact-section__left col s12 l7">
                                     <!-- Form -->
                                     <form class="form" action="https://formspree.io/$YOUR_EMAIL" method="POST">
-                                        <p class="form__required-text">*Required fields</p>
+                                        <p class="form__required-text">*<?= $lb->getRequiredFields(); ?></p>
                                         <div class="row mb-0">
                                             <div class="input-field col s12">
                                                 <input id="name" type="text" class="validate mb-0" name="name" required>
-                                                <label for="name"><span>*</span>Name</label>
+                                                <label for="name"><span>*</span><?= $lb->getName(); ?></label>
                                             </div>
                                         </div>
                                         <div class="row mb-0">
                                             <div class="input-field col s12">
                                                 <input id="email" type="email" class="validate mb-0" name="_replyto"
                                                     required>
-                                                <label for="email"><span>*</span>Email</label>
+                                                <label for="email"><span>*</span><?= $lb->getEmail(); ?></label>
                                             </div>
                                         </div>
                                         <div class="row mb-0">
                                             <div class="input-field col s12">
                                                 <input id="subject" type="text" class="validate mb-0" name="subject"
                                                     required>
-                                                <label for="subject"><span>*</span>Subject</label>
+                                                <label for="subject"><span>*</span><?= $lb->getSubject(); ?></label>
                                             </div>
                                         </div>
                                         <div class="row mb-0">
                                             <div class="input-field col s12">
                                                 <textarea id="textarea" class="materialize-textarea validate mb-0"
                                                     name="message" required></textarea>
-                                                <label for="textarea"><span>*</span>Message</label>
+                                                <label for="textarea"><span>*</span><?= $lb->getMessage(); ?></label>
                                             </div>
                                         </div>
                                         <!-- Spam prevention -->
@@ -1221,14 +1233,12 @@
                                         <p class="form__consent">
                                             <label>
                                                 <input type="checkbox" class="filled-in" required>
-                                                <span>*I consent to have this website collect my submitted information so
-                                                    they can respond to my inquiry. I have also read and agree to the <a
-                                                        href="#" target="_blank">Privacy Policy</a>.</span>
+                                                <span><?= $lb->getConsentInfo(); ?></span>
                                             </label>
                                         </p>
                                         <button class="form__submit waves-effect waves-contained-btn btn-contained"
                                             type="submit" name="action"><i
-                                                class="fas fa-paper-plane"></i>&nbsp;Submit</button>
+                                                class="fas fa-paper-plane"></i>&nbsp;<?= $lb->getSubmit(); ?></button>
                                     </form>
                                 </div>
                                 <?php endif; ?>
@@ -1359,8 +1369,8 @@
             <div class="row mb-0">
                 <div class="col s12 px-0">
                     <p class="footer__text">
-                        © 2019 Your Name. All rights reserved.
-                        <a class="footer__to-top right" href="#top">Back to top</a>
+                        <?= $portfolio->getCopyrightLine(); ?>
+                        <a class="footer__to-top right" href="#top"><?= $lb->getBackToTop(); ?></a>
                     </p>
                 </div>
             </div>
