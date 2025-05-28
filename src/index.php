@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- the PHP-adapted page file -->
     <!-- in this file we keep the page with PHP placeholders -->
-     <?php $hw = "Hello World!"; 
+     <?php 
      ini_set("display_errors", "1");
      error_reporting(E_ALL);
-     require_once "SoboSingletonTrait.php";
-     require_once "ExactAccessorMethodTrait.php";
+     require_once "php/SoboSingletonTrait.php";
+     require_once "php/ExactAccessorMethodTrait.php";
      class PortfolioPlaceHolders { 
         use Soboutils\SoboSingletonTrait;
         use Soboutils\ExactAccessorMethodTrait;

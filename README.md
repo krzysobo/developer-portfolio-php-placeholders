@@ -10,7 +10,23 @@
 
 ## Setup
 
-Simply fork the repo and run `npm install` in order to get all the Gulp dev dependencies. Next, run `gulp watch` to build the project and start live reloading on localhost:3000. At this point, the page is ready to go and you can begin to add your own information and make any needed changes.
+Simply fork the repo and run `npm install` in order to get all the Gulp dev dependencies. 
+
+
+## Development server 
+
+- run `gulp watch` to build the project and start live reloading on localhost:3000. PHP-based version, based on index.php
+
+- run `gulp watchStatic` to build the project and start live reloading on localhost:3000. 100% Static version, based on index.html
+
+Whichever of the above you choose, at this point the page is ready to go and you can begin to add your own information and make any needed changes.
+
+## Building
+
+- run `gulp build` to build a PHP-based version, based on index.php
+- run `gulp buildStatic` to build a 100% static version, based on index.html
+
+
 
 ## Features
 

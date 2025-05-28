@@ -28,13 +28,12 @@ const del = deleteAsync;
 
 // import pkg from 'gulp-sass';
 // const { logError } = pkg;
-
 // */
 
 import browserSync from 'browser-sync';
-const browserSyncInst = browserSync.create();
+const devBrowserSyncInst = browserSync.create();
 
-// const browserSyncInst = require('browser-sync').create();
+// const devBrowserSyncInst = require('browser-sync').create();
 import uglify from 'gulp-uglify';
 import wait from 'gulp-wait';
 import { stream as critical } from 'critical';
@@ -45,24 +44,15 @@ import phpConnect from 'gulp-connect-php';
 
 // Initialize
 // =============================================================================
-
+// ---- default task ----
 function defaultTask(cb) {
     console.log("DEFAULT TASK\n");
     // place code for your default task here
     cb();
 }
 
-// Start PHP server
-function phpServer() {
-    return phpConnect.server({
-        base: 'src',
-        port: 8090,
-        keepalive: true,
-        files: ['./**/*.php', './**/*.phtml'],
-        // index: '/index.phtml',
-    });
-}
 
+// ---- cleanup of files ----
 // Clean dist
 function cleanDist() {
     return del(['dist/**', '!dist']);
@@ -72,8 +62,10 @@ function cleanDist() {
 function cleanVendor() {
     return del(['src/vendor/**', '!src/vendor']);
 }
+// ---- /cleanup of files ----
 
-// Populate vendor (src)
+// ---- copying of files ----
+// Populate vendor (src), preparing the files to be copied to the destination
 function populateVendor() {
     return src([
         'node_modules/materialize-css/dist/js/materialize.min.js',
@@ -88,94 +80,77 @@ function populateVendor() {
         'node_modules/aos/dist/aos.css',
         'node_modules/headroom.js/dist/headroom.min.js'
     ], {
-        base: 'node_modules/'
+        base: 'node_modules/',
+        // encoding: false is VERY IMPORTANT, otherwise files get broken/corrupted
+        // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+        encoding: false,
     })
         .pipe(dest('src/vendor/'));
 }
 
 // Copy images to dist
 function copyImages() {
-    return src('src/images/**/*')
+    // encoding: false is VERY IMPORTANT, otherwise files get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/images/**/*', { encoding: false })
         .pipe(dest('dist/images'));
 }
 
 // Copy vendor to dist
 function copyVendor() {
-    return src('src/vendor/**/*')
+    // encoding: false is VERY IMPORTANT, otherwise files get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/vendor/**/*', { encoding: false })
         .pipe(dest('dist/vendor'));
 }
 
 // Copy Html to dist
-function copyHtml() {
-    return src('src/*.html')
+function copyHtmlWithPhp() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src(['src/*.html', 'src/**/*.php', '!src/index.html'],
+        { encoding: false })
         .pipe(dest('dist'));
 }
 
-// Development
-// =============================================================================
-
-// Static server (src)
-function browserSyncFile(cb, index_file) {
-    browserSyncInst.init({
-        server: {
-            baseDir: "src",
-            index: index_file,
-        },
-        open: "external"
-    });
-    cb();
+function copyHtmlStatic() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src(['src/*.html', 'src/*.html'],
+        { encoding: false })
+        .pipe(dest('dist'));
 }
 
-function browserSyncSrcStatic(cb) {
-    return browserSyncFile(cb, "index.html");
-}
+// function renameIndexHtmlStatic() {
+//     // .pipe(rename(dest('dist/index.html-ORIG-STATIC'), dest('dist/index.html')));
+//     return src(['dist/index.html-ORIG-STATIC'],
+//         { encoding: false })
+//         .pipe(rename('index.html'))
+//         .pipe(dest('dist'));
+// }
 
-function browserSyncSrcPhp(cb) {
-    // gulpSass.watch("src/sass/**/*.scss", series(compileSass));
-    // gulpSass.watch(["src/js/**/*.js"], series(browserReload));
-    // gulpSass.watch("src/*.html", series(browserReload));
-    browserSyncInst.init({
-        proxy: 'http://localhost:8090/',
-        // baseDir: "src",
-        open: "external",
-        notify: false,
-        // files: ['./**/*.php', './**/*.phtml'],
-    });
-
-    cb();
-
-
-}
-
-// Browser reload
-function browserReload(cb) {
-    browserSyncInst.reload();
-    cb(); // Signal completion
-}
+// function delIndexOrigStaticFromDist() {
+//     // .pipe(rename(dest('dist/index.html-ORIG-STATIC'), dest('dist/index.html')));
+//     return del(['dist/index.html-ORIG-STATIC']);
+// }
 
 // Compile Sass files
 function compileSass() {
-    return src('src/sass/developerportfolio.scss')
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/sass/developerportfolio.scss', { encoding: false })
         .pipe(sass().on('error', logError)) // Compile to CSS
         .pipe(dest('src/css/')) // Save to src
-        .pipe(browserSyncInst.stream()); // Inject changes without refreshing the page.
+        .pipe(devBrowserSyncInst.stream()); // Inject changes without refreshing the page.
 }
+// ---- /copying of files ----
 
-// Watch scss/js/html/ files
-function watchFiles() {
-    console.log("\n-- Watch files --\n");
-    __watch("src/sass/**/*.scss", series(compileSass));
-    __watch(["src/js/**/*.js"], series(browserReload));
-    // __watch("src/*.html", series(browserReload));
-    __watch(['src/**/*.phtml', 'src/**/*.php'], browserReload); // Reload on PHP changes
-}
-
-// Production
-// =============================================================================
-
-// CSS optimization
-function css() {
-    return src('src/css/*.css')
+// ---- installations for production, including optimizations and minifications
+// ----> CSS optimization and installation
+function installCss() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/css/*.css', { encoding: false })
         .pipe(autoprefixer({
             cascade: false
         })) // Add vendor prefixes
@@ -185,16 +160,28 @@ function css() {
         .pipe(dest('dist/css/'));
 }
 
-// JS optimization
-function js() {
-    return src('src/js/*.js')
+// ----> JS optimization and installation
+function installJs() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/js/*.js', { encoding: false })
         .pipe(uglify()) // Minify JS
         .pipe(dest('dist/js/'));
 }
 
-// Critical CSS
-function criticalCSS() {
-    return src('dist/*.html')
+// ----> JS configuration installation
+function installJsConfig() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('src/js/config/*.json', { encoding: false })
+        .pipe(dest('dist/js/config/'));
+}
+
+// ----> Critical CSS optimization and installation
+function installCriticalCSS() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src('dist/*.html', { encoding: false })
         .pipe(
             critical({
                 inline: true,
@@ -239,24 +226,96 @@ function criticalCSS() {
         .pipe(dest('dist/'));
 }
 
+
+
+// ---- Development server for gulp watch ----
+// Start PHP server
+function devPhpServer() {
+    return phpConnect.server({
+        base: 'src',
+        port: 8090,
+        keepalive: true,
+        files: ['./**/*.php', './**/*.phtml'],
+        // index: '/index.phtml',
+    });
+}
+
+// Static server (src)
+function devBrowserSyncFile(cb, index_file) {
+    devBrowserSyncInst.init({
+        server: {
+            baseDir: "src",
+            index: index_file,
+        },
+        open: "external"
+    });
+    cb();
+}
+
+function devBrowserSyncSrcStatic(cb) {
+    return devBrowserSyncFile(cb, "index.html");
+}
+
+function devBrowserSyncSrcPhp(cb) {
+    devBrowserSyncInst.init({
+        proxy: 'http://localhost:8090/',
+        // baseDir: "src",
+        open: "external",
+        notify: false,
+        // files: ['./**/*.php', './**/*.phtml'],
+    });
+
+    cb();
+}
+
+// Browser reload
+function devBrowserReload(cb) {
+    devBrowserSyncInst.reload();
+    cb(); // Signal completion
+}
+
+// Watch scss/js/html/ files
+function watchFiles() {
+    console.log("\n-- Watch files --\n");
+    __watch("src/sass/**/*.scss", series(compileSass));
+    __watch("src/sass/**/*.woff2", series(compileSass));
+    __watch("src/sass/**/*.ttf", series(compileSass));
+    __watch(["src/js/**/*.js"], series(devBrowserReload));
+    // __watch("src/*.html", series(devBrowserReload));
+    __watch(['src/**/*.phtml', 'src/**/*.php'], devBrowserReload); // Reload on PHP changes
+}
+
+
 // Tasks
 // =============================================================================
 
 // Define tasks
-const init = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtml);
+const initStatic = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtmlStatic);
+const init = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtmlWithPhp);
+
 // const build = gulp.series(init, compileSass, css, js, criticalCSS);
-const build = series(init, compileSass, css, js);
-const watch = series(build, parallel(watchFiles, browserSyncSrcStatic));
-// const watchPhp = series(build, parallel(watchFiles, browserSyncSrcPhp));
-const watchPhp = series(build, browserSyncSrcPhp, phpServer, watchFiles);
+const buildStatic = series(initStatic, compileSass, installCss, installJs, installJsConfig, installCriticalCSS);
+const build = series(init, compileSass, installCss, installJs, installJsConfig, installCriticalCSS);
+const watchStatic = series(build, parallel(watchFiles, devBrowserSyncSrcStatic));
+// const watchStatic = series(build, devBrowserSyncSrcStatic, watchFiles);
+// const watchPhp = series(build, parallel(watchFiles, devBrowserSyncSrcPhp));
+const watch = series(build, devBrowserSyncSrcPhp, devPhpServer, watchFiles);
 
 // Register public tasks
 const _init = init;
 export { _init as init };
+
+const _initStatic = initStatic;
+export { _initStatic as initStatic };
+
 const _build = build;
 export { _build as build };
+
+const _buildStatic = buildStatic;
+export { _buildStatic as buildStatic };
+
+const _watchStatic = watchStatic;
+export { _watchStatic as watchStatic };
+
 const _watch = watch;
 export { _watch as watch };
-
-const _watchPhp = watchPhp;
-export { _watchPhp as watchPhp };
