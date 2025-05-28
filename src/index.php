@@ -2,71 +2,13 @@
 <html lang="en">
     <!-- the PHP-adapted page file -->
     <!-- in this file we keep the page with PHP placeholders -->
-     <?php 
-     ini_set("display_errors", "1");
-     error_reporting(E_ALL);
-     require_once "php/SoboSingletonTrait.php";
-     require_once "php/ExactAccessorMethodTrait.php";
-     class PortfolioPlaceHolders { 
-        use Soboutils\SoboSingletonTrait;
-        use Soboutils\ExactAccessorMethodTrait;
+    <?php
+        ini_set("display_errors", "1");
+        error_reporting(E_ALL);
+        require_once "php/index_data.php";
+        $portfolio = set_portfolio_data();
 
-        private $fullName = "";
-
-        private $aboutMeFirstLine = "";
-        private $aboutMeSecondLine = "";
-        private $aboutMeDescription = "";
-        private $moreAboutMe = "";
-
-        private $email = "";
-        private $phone = "";
-        private $messenger = "";
-        private $telegram = "";
-        private $skype = "";
-        private $gitHub = "";
-        private $linkedIn = "";
-
-        private $resumeFilePath = "";
-        
-
-     }
-
-     $portfolio = PortfolioPlaceHolders::instance();
-     $portfolio->setFullName("Olivia Williams");
-     $portfolio->setAboutMeFirstLine("<span>Hi I'm</span> {$portfolio->getFullName()} de PHPse." );
-     $portfolio->setAboutMeSecondLine("I'm a JavaScript Engineer from the UK.");
-     $portfolio->setAboutMeDescription(
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quos,consectetur cupiditate ".
-        "iure dolorum molestiae asperiores maiores explicabo quia autem molestias labore quae laborum eos.");
-     $portfolio->setMoreAboutMe("
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione asperiores, vero
-        sit aliquid odit esse velit ab obcaecati deserunt nostrum minima debitis non,
-        expedita, eos assumenda officiis doloribus distinctio alias pariatur ducimus optio
-        nesciunt enim recusandae. Accusamus distinctio ducimus eveniet facere magnam! Veniam
-        magnam nostrum nisi eius ex impedit! Molestiae repellendus dolor omnis ad maiores
-        molestias sit, vitae in ex totam nobis impedit suscipit. Blanditiis perspiciatis
-        placeat molestiae soluta fugit similique quasi numquam dolorum nostrum saepe?
-        Architecto commodi nisi corrupti quibusdam. Adipisci facere error expedita
-        asperiores quae ab nihil ducimus tempora corporis eveniet tenetur consectetur amet
-        repudiandae modi quibusdam dolor, ipsum natus iure eligendi, nulla repellendus
-        reiciendis voluptatem. Nam explicabo dolor amet! Itaque eos, sint ullam labore
-        dolores sit possimus illo saepe ab. Minima fugit vero saepe molestiae? Reiciendis
-        quasi reprehenderit maiores quae nesciunt non quos at laboriosam dolorum excepturi
-        ducimus impedit, eum earum nisi tempore nemo esse! Maiores, architecto?");
-
-     $portfolio->setResumeFilePath("images/dummy.pdf");
-     $portfolio->setEmail("name@example.com");
-     $portfolio->setPhone("+1-202-555-0124");
-
-     $portfolio->setMessenger("username");
-     $portfolio->setTelegram("username");
-     $portfolio->setSkype("username");
-     $portfolio->setGitHub("username");
-     $portfolio->setLinkedIn("username");
-
-
-
-        ?>
+    ?>
 
 <head>
     <title>Home | Developer Portfolio</title>
@@ -127,8 +69,8 @@
         <div class="sidenav__header">
             <img class="sidenav__image responsive-img" alt="Profile picture" src="images/thumbnail.jpg"
                 srcset="images/thumbnail.jpg 1x, images/thumbnail@2x.jpg 2x" loading="lazy" width="64" height="64">
-            <h3 class="sidenav__title"><?= $portfolio->getFullName(); ?></h3>
-            <h6 class="sidenav__subtitle"><a href="mailto:<?= $portfolio->getEmail(); ?>"><?= $portfolio->getEmail(); ?></a></h6>
+            <h3 class="sidenav__title"><?php echo $portfolio->getFullName(); ?></h3>
+            <h6 class="sidenav__subtitle"><a href="mailto:<?php echo $portfolio->getEmail(); ?>"><?php echo $portfolio->getEmail(); ?></a></h6>
         </div>
         <nav class="sidenav__list">
             <ul>
@@ -172,15 +114,15 @@
                                     <div class="lead-card__primary card-primary">
                                         <h1 data-aos="fade-up" data-aos-delay="900" data-aos-duration="200"
                                             data-aos-once="true" class="lead-card__title">
-                                            <?= $portfolio->getAboutMeFirstLine(); ?>
+                                            <?php echo $portfolio->getAboutMeFirstLine(); ?>
                                         </h1>
                                         <h2 data-aos="fade-up" data-aos-delay="1000" data-aos-duration="200"
                                             data-aos-once="true" class="lead-card__subtitle card-subtitle">
-                                            <?= $portfolio->getAboutMeSecondLine(); ?></h2>
+                                            <?php echo $portfolio->getAboutMeSecondLine(); ?></h2>
                                     </div>
                                     <div data-aos="fade-up" data-aos-delay="1100" data-aos-duration="200"
                                         data-aos-once="true" class="lead-card__secondary card-secondary">
-                                        <?= $portfolio->getAboutMeDescription(); ?>
+                                        <?php echo $portfolio->getAboutMeDescription(); ?>
                                     </div>
                                     <div data-aos="fade-up" data-aos-delay="1200" data-aos-duration="200"
                                         data-aos-once="true" class="lead-card__cta">
@@ -197,25 +139,34 @@
                             <div class="card-action d-flex align-items-center">
                                 <div data-aos="zoom-in" data-aos-delay="1500" data-aos-duration="1000"
                                     data-aos-once="true" data-aos-offset="0" class="card-action-links d-flex">
-                                    <a class="waves-effect waves-text-btn btn-text" href="<?= $portfolio->getResumeFilePath(); ?>"
+                                    <a class="waves-effect waves-text-btn btn-text" href="<?php echo $portfolio->getResumeFilePath(); ?>"
                                         target="_blank"><i class="fas fa-external-link-square-alt"></i>&nbsp;RESUME</a>
                                 </div>
                                 <div data-aos="zoom-in" data-aos-delay="1500" data-aos-duration="1000"
                                     data-aos-once="true" data-aos-offset="0" class="card-action-icons d-flex ml-auto">
-                                    <a class="waves-effect waves-icon-btn btn-icon" href="" target="_blank"
-                                        rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-                                    <a class="waves-effect waves-icon-btn btn-icon" href="" target="_blank"
-                                        rel="noopener"><i class="fab fa-github"></i></a>
-                                    <a class="waves-effect waves-icon-btn btn-icon" href="skype:username?chat"><i
-                                            class="fab fa-skype"></i></a>
+
+                                    <?php if ($portfolio->getLinkedIn()): ?>
+                                        <a class="waves-effect waves-icon-btn btn-icon" href="<?php echo $portfolio->getLinkedInUrl(); ?>" target="_blank"
+                                            rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                                    <?php endif; ?>
+
+                                    <?php if ($portfolio->getGitHub()): ?>
+                                        <a class="waves-effect waves-icon-btn btn-icon" href="<?php echo $portfolio->getGitHubUrl(); ?>" target="_blank"
+                                            rel="noopener"><i class="fab fa-github"></i></a>
+                                    <?php endif; ?>
+
+                                    <?php if ($portfolio->getSkype()): ?>
+                                        <a class="waves-effect waves-icon-btn btn-icon" href="<?php echo $portfolio->getSkypeUrl(); ?>">
+                                            <i class="fab fa-skype"></i></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="card-reveal" data-simplebar>
                                 <div class="lead-card__primary card-primary">
-                                    <h2 class="card-title">Lorem Ipsum</h2>
+                                    <h2 class="card-title"><?= $portfolio->getFullName(); ?> - More About Me</h2>
                                 </div>
                                 <div class="card-secondary">
-                                    <?= $portfolio->getMoreAboutMe(); ?>
+                                    <?php echo $portfolio->getMoreAboutMe(); ?>
                                 </div>
                                 <button class="card-overflow-control card-title waves-effect waves-icon-btn btn-icon"><i
                                         class="fas fa-times"></i></button>
@@ -1283,31 +1234,41 @@
                             <div class="contact-section__right col s12 l5">
                                 <div class="contact-links">
                                     <ul class="contact-links-list">
+                                        <?php if($portfolio->getEmail()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="mailto:<?= $portfolio->getEmail(); ?>"
+                                            <a href="mailto:<?php echo $portfolio->getEmail(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface">
                                                 <i class="contact-links-list-item__icon fas fa-envelope"></i>
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">Email</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text"><?= $portfolio->getEmail(); ?></span>
+                                                        class="contact-links-list-item__secondary-text"><?php echo $portfolio->getEmail(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getPhone()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="tel:+1-202-555-0124"
+                                            <a href="tel:<?php echo $portfolio->getPhone(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface">
                                                 <i class="contact-links-list-item__icon fas fa-phone"></i>
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">Phone</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text"><?= $portfolio->getPhone(); ?></span>
+                                                        class="contact-links-list-item__secondary-text"><?php echo $portfolio->getPhone(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if(($portfolio->getEmail()) ||($portfolio->getPhone())): ?>
                                         <li class="contact-links-list__divider" role="separator"></li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getMessenger()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="https://m.me/username"
+                                            <a href="<?php echo $portfolio->getMessengerUrl(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface"
                                                 target="_blank" rel="noopener">
                                                 <i
@@ -1315,46 +1276,61 @@
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">Messenger</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text">@<?= $portfolio->getMessenger(); ?></span>
+                                                        class="contact-links-list-item__secondary-text">@<?php echo $portfolio->getMessenger(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getTelegram()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="https://t.me/username"
+                                            <a href="<?php echo $portfolio->getTelegramUrl(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface"
                                                 target="_blank" rel="noopener">
                                                 <i class="contact-links-list-item__icon fab fa-telegram fa-fw"></i>
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">Telegram</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text">@<?= $portfolio->getTelegram(); ?></span>
+                                                        class="contact-links-list-item__secondary-text">@<?php echo $portfolio->getTelegram(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getSkype()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="skype:username?chat"
+                                            <a href="<?php echo $portfolio->getSkypeUrl(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface">
                                                 <i class="contact-links-list-item__icon fab fa-skype fa-fw"></i>
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">Skype</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text">@<?= $portfolio->getSkype(); ?></span>
+                                                        class="contact-links-list-item__secondary-text">@<?php echo $portfolio->getSkype(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if(($portfolio->getTelegram()) || ($portfolio->getSkype())): ?>
                                         <li class="contact-links-list__divider" role="separator"></li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getGitHub()): ?>
                                         <li class="contact-links-list-item">
-                                            <a href="https://github.com/username"
+                                            <a href="<?php echo $portfolio->getGitHubUrl(); ?>"
                                                 class="contact-links-list-item__link waves-effect waves-surface"
                                                 target="_blank" rel="noopener">
                                                 <i class="contact-links-list-item__icon fab fa-github fa-fw"></i>
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">GitHub</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text">@<?= $portfolio->getGitHub(); ?></span>
+                                                        class="contact-links-list-item__secondary-text">@<?php echo $portfolio->getGitHub(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
+
+                                        <?php if($portfolio->getLinkedIn()): ?>
                                         <li class="contact-links-list-item">
                                             <a href="https://www.linkedin.com/in/username"
                                                 class="contact-links-list-item__link waves-effect waves-surface"
@@ -1363,10 +1339,11 @@
                                                 <span class="contact-links-list-item__text">
                                                     <span class="contact-links-list-item__primary-text">LinkedIn</span>
                                                     <span
-                                                        class="contact-links-list-item__secondary-text">@<?= $portfolio->getLinkedIn(); ?></span>
+                                                        class="contact-links-list-item__secondary-text">@<?php echo $portfolio->getLinkedIn(); ?></span>
                                                 </span>
                                             </a>
                                         </li>
+                                        <?php endif; ?>
                                     </ul>
                                 </div>
                             </div>
