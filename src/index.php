@@ -139,9 +139,9 @@
                                     <div data-aos="fade-up" data-aos-delay="1200" data-aos-duration="200"
                                         data-aos-once="true" class="lead-card__cta">
                                         <a class="waves-effect waves-contained-btn btn-contained"
-                                            href="#projectsSection">My work</a>
+                                            href="#projectsSection"><?= $lb->getMyWork(); ?></a>
                                         <a class="waves-effect waves-outlined-btn btn-outlined"
-                                            href="#contactSection">Contact me</a>
+                                            href="#contactSection"><?= $lb->getContactMe(); ?></a>
                                     </div>
                                     <button
                                         class="lead-card__overflow-control card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
@@ -467,7 +467,7 @@
                 <div class="row mb-0">
                     <div class="col s12 px-0">
                         <h2 data-aos="fade-up" data-aos-once="true" class="projects-section__title section__title">
-                            Projects</h2>
+                            <?= $lb->getProjects(); ?></h2>
                         <div class="projects-section__row-wrapper collapse">
                             <div class="row mb-0">
                                 <div class="col s12 m6 xl3 projects-section__col">
@@ -1042,7 +1042,7 @@
                         </div>
                         <button id="showMoreProjects"
                             class="projects-section__show-more waves-effect waves-text-btn-on-background btn-text-on-background d-block mx-auto"><i
-                                class="fas fa-chevron-down"></i> Show more</button>
+                                class="fas fa-chevron-down"></i> <?= $lb->getShowMore(); ?></button>
                     </div>
                 </div>
             </div>
@@ -1051,7 +1051,7 @@
             <div class="container">
                 <div class="row mb-0">
                     <div class="col s12 px-0">
-                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title">Testimonials</h2>
+                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getTestimonials(); ?></h2>
 
                         <div class="card text-center p-48">
                             <div class="pb-8">
@@ -1079,7 +1079,7 @@
             <div class="container">
                 <div class="row mb-0">
                     <div class="col s12 px-0">
-                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title">Skills</h2>
+                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getSkills(); ?></h2>
                         <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="card my-0">
                             <div class="skills-chart" id="skillsChart"></div>
                         </div>
@@ -1092,7 +1092,7 @@
             <div class="container">
                 <div class="row mb-0">
                     <div class="col s12 px-0">
-                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title">Education</h2>
+                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getEducation(); ?></h2>
                         <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
                             <article>
                                 <div class="horizontal-card card">

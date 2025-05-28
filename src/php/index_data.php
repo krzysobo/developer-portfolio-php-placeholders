@@ -35,6 +35,13 @@ class PortfolioLabels
         they can respond to my inquiry. I have also read and agree to the <a href=\"[PRIVACY_POLICY_URL]\" target=\"_blank\">Privacy Policy</a>.";
 
     private $consentInfo = "";
+
+    private $myWork = "My work";
+    private $contactMe = "Contact me";
+
+
+
+
 }
 
 class PortfolioPlaceHolders
@@ -162,7 +169,7 @@ function set_portfolio_labels()
 
     $privacyPolicyUrl = "/privacy-policy/";
     $consentText = str_replace("[PRIVACY_POLICY_URL]", $privacyPolicyUrl, $lb->getConsentInfoTpl());
-    $lb->setConsentInfo($consentText);
+    $lb->setConsentInfo($privacyPolicyUrl);
 
     return $lb;
 }
