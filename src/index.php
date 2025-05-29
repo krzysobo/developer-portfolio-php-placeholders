@@ -6,7 +6,7 @@
         ini_set("display_errors", "1");
         error_reporting(E_ALL);
         require_once "php/index_data.php";
-        $portfolio = set_portfolio_data();
+        $portfolio = set_portfolio_data();        
         $lb = set_portfolio_labels();
 
     ?>
@@ -143,9 +143,11 @@
                                         <a class="waves-effect waves-outlined-btn btn-outlined"
                                             href="#contactSection"><?= $lb->getContactMe(); ?></a>
                                     </div>
+                                    <?php if(!empty($portfolio->getMoreAboutMe())): ?>
                                     <button
                                         class="lead-card__overflow-control card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
                                             class="fa fa-ellipsis-v"></i></button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="card-action d-flex align-items-center">
@@ -173,16 +175,18 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="card-reveal" data-simplebar>
-                                <div class="lead-card__primary card-primary">
-                                    <h2 class="card-title"><?= $portfolio->getFullName(); ?> - <?= $lb->getMoreAboutMe(); ?></h2>
+                            <?php if(!empty($portfolio->getMoreAboutMe())): ?>
+                                <div class="card-reveal" data-simplebar>
+                                    <div class="lead-card__primary card-primary">
+                                        <h2 class="card-title"><?= $portfolio->getFullName(); ?> - <?= $lb->getMoreAboutMe(); ?></h2>
+                                    </div>
+                                    <div class="card-secondary">
+                                        <?php echo $portfolio->getMoreAboutMe(); ?>
+                                    </div>
+                                    <button class="card-overflow-control card-title waves-effect waves-icon-btn btn-icon"><i
+                                            class="fas fa-times"></i></button>
                                 </div>
-                                <div class="card-secondary">
-                                    <?php echo $portfolio->getMoreAboutMe(); ?>
-                                </div>
-                                <button class="card-overflow-control card-title waves-effect waves-icon-btn btn-icon"><i
-                                        class="fas fa-times"></i></button>
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -195,264 +199,50 @@
                     <div class="col s12 px-0">
                         <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getExperience(); ?></h2>
                         <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="timeline collapse">
+                            <?php foreach($portfolio->getExperience() as $item): ?>
                             <article class="timeline__box">
                                 <div class="timeline__wrapper">
                                     <div class="horizontal-card card">
                                         <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-01.png"
-                                                srcset="images/experience-01.png 1x, images/experience-01@2x.png 2x"
+                                                src="<?php echo $item["logoSrc"];?>"
+                                                srcset="<?php echo $item["logoSrcSet"];?>"
                                                 alt="Company logo" draggable="false" loading="lazy" width="42"
                                                 height="42"></a>
                                         <div class="card-content">
                                             <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Sr. Front-End JavaScript Engineer</h3>
-                                                <h4 class="card-subtitle">PayPal</h4>
+                                                <h3 class="card-title activator"><?php echo $item["jobName"];?></h3>
+                                                <h4 class="card-subtitle"><?php echo $item["companyName"];?></h4>
                                             </div>
                                             <div class="card-secondary">
-                                                Oct 2018 - Present<br>
-                                                San Jose, CA
+                                                <?php echo (! empty($item["dtFrom"])) ? $item["dtFrom"]->format('M Y') : ""?> -
+                                                    <?php echo (! empty($item["dtTo"])) ? $item["dtTo"]->format('M Y') : $lb->getPresent()?>
+                                                <br>
+                                                <?php echo $item["location"];?>
                                             </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
+                                            <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                                <button class="card-overflow-control waves-effect waves-icon-btn btn-icon activator">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
+
+                                        <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                            <div class="card-reveal" data-simplebar>
+                                                <div class="horizontal-card__primary card-primary">
+                                                    <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                                </div>
+                                                <div class="card-secondary">
+                                                    <?= $item["moreInfoDesc"]; ?>
+                                                </div>
+                                                <button
+                                                    class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
+                                                        class="fas fa-times"></i></button>
                                             </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </article>
-                            <article class="timeline__box">
-                                <div class="timeline__wrapper">
-                                    <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-02.png"
-                                                srcset="images/experience-02.png 1x, images/experience-02@2x.png 2x"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
-                                        <div class="card-content">
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Front-End Software Engineer</h3>
-                                                <h4 class="card-subtitle">Microsoft</h4>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Jan 2016 - Sep 2018<br>
-                                                Redmond, WA
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="timeline__box">
-                                <div class="timeline__wrapper">
-                                    <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-03.png"
-                                                srcset="images/experience-03.png 1x, images/experience-03@2x.png 2x"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
-                                        <div class="card-content">
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Jr. Front-End Software Engineer</h3>
-                                                <h4 class="card-subtitle">Amazon</h4>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Sep 2014 - Dec 2015<br>
-                                                Seattle, WA
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="timeline__box">
-                                <div class="timeline__wrapper">
-                                    <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-01.png"
-                                                srcset="images/experience-01.png 1x, images/experience-01@2x.png 2x"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
-                                        <div class="card-content">
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Sr. Front-End JavaScript Engineer</h3>
-                                                <h4 class="card-subtitle">PayPal</h4>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Oct 2018 - Present<br>
-                                                San Jose, CA
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="timeline__box">
-                                <div class="timeline__wrapper">
-                                    <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-02.png"
-                                                srcset="images/experience-02.png 1x, images/experience-02@2x.png 2x"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
-                                        <div class="card-content">
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Front-End Software Engineer</h3>
-                                                <h4 class="card-subtitle">Microsoft</h4>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Jan 2016 - Sep 2018<br>
-                                                Redmond, WA
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="timeline__box">
-                                <div class="timeline__wrapper">
-                                    <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="images/experience-03.png"
-                                                srcset="images/experience-03.png 1x, images/experience-03@2x.png 2x"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
-                                        <div class="card-content">
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title activator">Jr. Front-End Software Engineer</h3>
-                                                <h4 class="card-subtitle">Amazon</h4>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Sep 2014 - Dec 2015<br>
-                                                Seattle, WA
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
-                                                eius esse necessitatibus veniam asperiores in pariatur dolorum cum
-                                                sapiente sequi earum laboriosam officiis maiores a suscipit, consectetur
-                                                rerum repellat excepturi est. Ullam quis quae atque soluta quia quas
-                                                debitis enim voluptatibus excepturi eligendi incidunt quibusdam animi
-                                                sunt ipsam odit, laudantium repudiandae mollitia odio. Ad reiciendis
-                                                incidunt distinctio voluptas amet quo ab atque, neque esse architecto
-                                                nostrum accusantium sint recusandae quibusdam quisquam sed a quas minima
-                                                natus impedit quis eius.
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
+                            <?php endforeach; ?>                               
                         </div>
                         <button id="showMoreExperience"
                             class="experience-section__show-more waves-effect waves-text-btn-on-background btn-text-on-background d-block mx-auto"><i
@@ -469,576 +259,85 @@
                         <h2 data-aos="fade-up" data-aos-once="true" class="projects-section__title section__title">
                             <?= $lb->getProjects(); ?></h2>
                         <div class="projects-section__row-wrapper collapse">
-                            <div class="row mb-0">
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 1 -->
-                                    <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-01.png"
-                                                srcset="images/project-01.png 1x, images/project-01@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
+                              <?php 
+                                $projects = $portfolio->getProjects(); 
+                                $noProjects = count($projects);
+                                $noCols = 4;
+                                $noRows = no_rows_for_cols_items($noCols, $noProjects);
+                                $projI = 0;
+                              ?>                                
+      
+                            <?php for($r = 0; $r < $noRows; $r++): ?>
+                                <div class="row mb-0">
+                                    <?php for($c = 0; $c < $noCols; $c++): ?>
+                                        <div class="col s12 m6 xl3 projects-section__col">
+                                            <?php $item = $projects[$projI]; ?>
+                                          <!-- Project $projI -->  
+                                            <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="200"
+                                                data-aos-once="true" class="basic-card card">
+                                                <div class="card-image">
+                                                    <img class="responsive-img" src="<?= $item['imgSrc']; ?>"
+                                                        srcset="<?= $item['imgSrcSet']; ?>"
+                                                        alt="Project thumbnail" draggable="false" loading="lazy" width="540"
+                                                        height="405">
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="basic-card__primary card-primary">
+                                                        <h3 class="card-title activator"><?= $item['title']; ?></h3>
+                                                    </div>
+                                                    <div class="card-secondary">
+                                                        <?= $item['desc']; ?>
+                                                    </div>
+                                                    <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                                        <button class="card-overflow-control waves-effect waves-icon-btn btn-icon activator">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="card-action d-flex align-items-center">
+                                                    <div class="card-action-links d-flex">
+                                                        <?php if(!empty($item["demoUrl"])): ?>
+                                                            <a class="waves-effect waves-text-btn btn-text" href="<?= $item["demoUrl"]; ?>" target="_blank"
+                                                                rel="noopener"><i class="fas fa-external-link-square-alt"></i>&nbsp;<?= $lb->getDemo(); ?></a>
+                                                        <?php else: ?>
+                                                            <span class="h-36"></span> 
+                                                        <?php endif; ?>
+
+                                                        <?php if(!empty($item["sourceUrl"])): ?>
+                                                            <a class="waves-effect waves-text-btn btn-text" href="<?= $item["sourceUrl"]; ?>" target="_blank"
+                                                            rel="noopener"><i class="fas fa-code"></i>&nbsp;<?= $lb->getSource(); ?></a>
+                                                        <?php else: ?>
+                                                            <span class="h-36"></span> 
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                                    <div class="card-reveal" data-simplebar>
+                                                        <div class="basic-card__primary card-primary">
+                                                            <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                                        </div>
+                                                        <div class="card-secondary">
+                                                            <?= $item["moreInfoDesc"]; ?>
+                                                        </div>
+                                                        <button
+                                                            class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
+                                                                class="fas fa-times"></i></button>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+
+                                          <!-- /Project $projI -->  
                                         </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 2 -->
-                                    <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-02.png"
-                                                srcset="images/project-02.png 1x, images/project-02@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 3 -->
-                                    <div data-aos="fade-up" data-aos-delay="300" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-03.png"
-                                                srcset="images/project-03.png 1x, images/project-03@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 4 -->
-                                    <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-04.png"
-                                                srcset="images/project-04.png 1x, images/project-04@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-0">
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 5 -->
-                                    <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-05.png"
-                                                srcset="images/project-05.png 1x, images/project-05@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 6 -->
-                                    <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-06.png"
-                                                srcset="images/project-06.png 1x, images/project-06@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 7 -->
-                                    <div data-aos="fade-up" data-aos-delay="700" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-07.png"
-                                                srcset="images/project-07.png 1x, images/project-07@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 8 -->
-                                    <div data-aos="fade-up" data-aos-delay="800" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-08.png"
-                                                srcset="images/project-08.png 1x, images/project-08@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-0">
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 9 -->
-                                    <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-01.png"
-                                                srcset="images/project-01.png 1x, images/project-01@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 10 -->
-                                    <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-02.png"
-                                                srcset="images/project-02.png 1x, images/project-02@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 11 -->
-                                    <div data-aos="fade-up" data-aos-delay="300" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-03.png"
-                                                srcset="images/project-03.png 1x, images/project-03@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 xl3 projects-section__col">
-                                    <!-- Project 12 -->
-                                    <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="200"
-                                        data-aos-once="true" class="basic-card card">
-                                        <div class="card-image">
-                                            <img class="responsive-img" src="images/project-04.png"
-                                                srcset="images/project-04.png 1x, images/project-04@2x.png 2x"
-                                                alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                height="405">
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title activator">Project Title</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                        </div>
-                                        <div class="card-action d-flex align-items-center">
-                                            <div class="card-action-links d-flex">
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i
-                                                        class="fas fa-external-link-square-alt"></i>&nbsp;Demo</a>
-                                                <a class="waves-effect waves-text-btn btn-text" href="#" target="_blank"
-                                                    rel="noopener"><i class="fas fa-code"></i>&nbsp;Source</a>
-                                            </div>
-                                        </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="basic-card__primary card-primary">
-                                                <h3 class="card-title">Lorem Ipsum</h3>
-                                            </div>
-                                            <div class="card-secondary">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-                                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
-                                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-                                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-                                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        <?php
+                                        if ($projI >= $noProjects - 1):
+                                            break; 
+                                        else:
+                                             $projI++;
+                                        endif;
+                                        ?>
+                                    <?php endfor; ?>        
+                                </div>    
+                            <?php endfor; ?>
                         </div>
                         <button id="showMoreProjects"
                             class="projects-section__show-more waves-effect waves-text-btn-on-background btn-text-on-background d-block mx-auto"><i
@@ -1069,25 +368,73 @@
                                 <div class="card-secondary p-0 <?php if($i < $testimonials_last_i): ?>mb-30<?php endif; ?>">
                                     <?= $item["person"]; ?>
                                 </div>
-
                             <?php endforeach; ?>
                         </div>
-
                     </div>
                 </div>
             </div>
         </section>
+
         <!-- Skills -->
         <section id="skillsSection" class="skills-section section scrollspy">
             <div class="container">
-                <div class="row mb-0">
+                <!-- skills chart -->
+                <div class="row mb-0" id="rowSkillsChart"<?php if(!$portfolio->getSkillsShowChartDefault()): ?>style="display: none;" <?php endif; ?>>
                     <div class="col s12 px-0">
                         <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getSkills(); ?></h2>
-                        <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="card my-0">
+                        
+                        <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="card">
+                            <div data-aos="fade-up" data-aos-delay="1200" data-aos-duration="200"
+                                data-aos-once="true" class="lead-card__cta float-right">
+                                <a class="waves-effect waves-contained-btn btn-contained"
+                                    href="#skillsSection" onclick="showSkillsList();"><?= $lb->getShowList(); ?> </a>
+                                <!-- <a class="waves-effect waves-outlined-btn btn-outlined"
+                                    href="#contactSection"><?= $lb->getContactMe(); ?></a> -->
+                            </div>
+
                             <div class="skills-chart" id="skillsChart"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- skills list -->
+                <div class="row mb-0" id="rowSkillsList" <?php if($portfolio->getSkillsShowChartDefault()): ?>style="display: none;" <?php endif; ?>>
+                    <div class="col s12 px-0">
+                        <h2 data-aos="fade-up" data-aos-once="true" class="section__title"><?= $lb->getSkills(); ?></h2>
+                        <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="card mb-20">
+                            <div data-aos="fade-up" data-aos-delay="1200" data-aos-duration="200"
+                                data-aos-once="true" class="lead-card__cta float-right">
+                                <a class="waves-effect waves-contained-btn btn-contained"
+                                    href="#skillsSection" onclick="showSkillsChart();"><?= $lb->getShowChart(); ?> 
+                                </a>
+                            </div>
+                        </div>
+
+                        <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" >
+                            <?php foreach($portfolio->getSkills() as $item): ?>
+                                <article class="mb-20">
+                                    <div class="horizontal-card card">
+                                        <div class="card-content">
+                                            <div class="horizontal-card__primary card-primary">
+                                                <h3 class="card-title card-title activator"><?= $item["name"]; ?></h3>
+                                                <?php if(!empty($item["yearSince"])): ?>
+                                                    <h4 class="card-subtitle"><?= $lb->getYearSince() ?>  <?= $item["yearSince"]; ?></h4>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="card-secondary">
+                                                <?php if(!empty($item["childrenNames"])): ?>
+                                                    <?= implode(", ", $item["childrenNames"]); ?>
+                                                <?php endif; ?>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
         <!-- Education-->
@@ -1113,24 +460,28 @@
                                             <div class="card-secondary">
                                                 <?= $item["eduClue"]; ?>
                                                 <br>
-                                                <?= date('M Y', mktime(0,0,0, $item["eduYearMonthFrom"][1], 1, $item["eduYearMonthFrom"][0])); ?> - <?= date('M Y', mktime(0,0,0, $item["eduYearMonthTo"][1], 1, $item["eduYearMonthTo"][0])); ?>
-
+                                                <?= (!empty($item["dtFrom"]))? $item["dtFrom"]->format('M Y') : "" ?> - <?= (!empty($item["dtTo"]))?$item["dtTo"]->format('M Y'): $lb->getPresent() ?>
                                             </div>
-                                            <button
-                                                class="card-overflow-control waves-effect waves-icon-btn btn-icon activator"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
+                                            <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                                <button class="card-overflow-control waves-effect waves-icon-btn btn-icon activator">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="card-reveal" data-simplebar>
-                                            <div class="horizontal-card__primary card-primary">
-                                                <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                        
+                                        <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
+                                            <div class="card-reveal" data-simplebar>
+                                                <div class="horizontal-card__primary card-primary">
+                                                    <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                                </div>
+                                                <div class="card-secondary">
+                                                    <?= $item["moreInfoDesc"]; ?>
+                                                </div>
+                                                <button class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
                                             </div>
-                                            <div class="card-secondary">
-                                                <?= $item["moreInfoDesc"]; ?>
-                                            </div>
-                                            <button
-                                                class="card-title card-overflow-control waves-effect waves-icon-btn btn-icon"><i
-                                                    class="fas fa-times"></i></button>
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </article>
                             <?php endforeach; ?>

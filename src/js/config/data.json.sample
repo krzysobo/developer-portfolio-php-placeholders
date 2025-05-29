@@ -1,7 +1,6 @@
 [
   {
     "name":"HTML5",
-    "yearSince": "2007",
     "children":[
       {"name":"Semantics","value":1},
       {"name":"PWAs","value":1},
@@ -12,7 +11,6 @@
   },
   {
     "name":"CSS",
-    "yearSince": "2007",
     "children":[
       {"name":"BEM","value":1},
       {"name":"Bootstrap","value":1},
@@ -23,7 +21,6 @@
   },
   {
     "name":"JS",
-    "yearSince": "2008",
     "children":[
       {"name":"JavaScript (ES6+)","value":1},
       {"name":"jQuery","value":1},
@@ -37,7 +34,6 @@
   },
   {
     "name":"Essent.",
-    "yearSince": "2005",
     "children":[
       {"name":"Git","value":1},
       {"name":"GitHub","value":1},
@@ -50,7 +46,6 @@
   },
   {
     "name":"Other",
-    "yearSince": "2009",
     "children":[
       {"name":"WordPress","value":1},
       {"name":"October","value":1},
@@ -64,7 +59,6 @@
   },
   {
     "name":"Design",
-    "yearSince": "2011",
     "children":[
       {"name":"Adobe XD","value":1},
       {"name":"Adobe Photoshop","value":1},

@@ -1,3 +1,13 @@
+function showSkillsList() {
+    $("#rowSkillsChart").hide();
+    $("#rowSkillsList").show();
+}
+
+function showSkillsChart() {
+    $("#rowSkillsChart").show();
+    $("#rowSkillsList").hide();
+}
+
 $(document).ready(function () {
 
     // Make top bar react to user's scroll
@@ -89,4 +99,7 @@ $(document).ready(function () {
     M.ScrollSpy.init(elems, {
         scrollOffset: 0
     });
+
+        
+
 });

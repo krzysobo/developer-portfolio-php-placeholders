@@ -3932,6 +3932,10 @@ a:hover {
   background-color: rgba(10, 25, 47, 0.24);
 }
 
+.h-36 {
+  height: 36px;
+}
+
 .btn-text, .btn-text-on-background {
   color: #64ffda !important;
   font-size: 14px;

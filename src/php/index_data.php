@@ -1,129 +1,14 @@
 <?php
 
-require_once "php/SoboSingletonTrait.php";
-require_once "php/ExactAccessorMethodTrait.php";
+require_once "index_classes.php";
 
-class PortfolioLabels
-{
-    use Soboutils\SoboSingletonTrait;
-    use Soboutils\ExactAccessorMethodTrait;
-
-    private $contact             = "Contact";
-    private $about               = "About";
-    private $moreAboutMe         = "More About Me";
-    private $experience          = "Experience";
-    private $projects            = "Projects";
-    private $testimonials        = "Testimonials";
-    private $skills              = "Skills";
-    private $education           = "Education";
-    private $resumeFile          = "RESUME";
-    private $email               = "Email";
-    private $showMore            = "Show more";
-    private $backToTop           = "Back to top";
-    private $pageTitle           = "";
-    private $pageMetaDescription = "";
-
-    private $requiredFields = "Required fields";
-    private $name           = "Name";
-    private $subject        = "Subject";
-    private $message        = "Message";
-    private $submit         = "Submit";
-    private $phone          = "Phone";
-    private $privacyPolicy  = "Privacy Policy";
-
-    private $consentInfoTpl = " *I consent to have this website collect my submitted information so
-        they can respond to my inquiry. I have also read and agree to the <a href=\"[PRIVACY_POLICY_URL]\" target=\"_blank\">Privacy Policy</a>.";
-
-    private $consentInfo = "";
-
-    private $myWork    = "My work";
-    private $contactMe = "Contact me";
-
-}
-
-class PortfolioPlaceHolders
-{
-    use Soboutils\SoboSingletonTrait;
-    use Soboutils\ExactAccessorMethodTrait;
-
-    private $fullName      = "";
-    private $copyrightLine = "© 2025 Your Name. All rights reserved.";
-
-    private $aboutMeFirstLine   = "";
-    private $aboutMeSecondLine  = "";
-    private $aboutMeDescription = "";
-    private $moreAboutMe        = "";
-    private $contactDescription = "";
-
-    // social sites logins
-    private $email     = "";
-    private $phone     = "";
-    private $gitHub    = "";
-    private $linkedIn  = "";
-    private $messenger = "";
-    private $skype     = "";
-    private $telegram  = "";
-
-    // social sites URLs
-    private $gitHubUrl   = "";
-    private $linkedInUrl = "";
-
-    private $messengerUrl = "";
-    private $skypeUrl     = "";
-    private $telegramUrl  = "";
-
-    // files
-    private $resumeFilePath = "";
-    private $logoUrl        = "";
-    private $logoUrlSrcSet  = "";
-    private $coverImageUrl  = "";
-
-    private $eduHistory = [];
-
-    private $testimonials = [];
-
-    public function addEduHistoryItem($item)
-    {
-        $this->eduHistory[] = $item;
-    }
-
-    public function addTestimonialItem($item)
-    {
-        $this->testimonials[] = $item;
-    }
-
-    // booleans
-    private $showContactForm = true;
-
-    public function makeSocialUrls()
-    {
-        if ($this->getGitHub()) {
-            $this->setGitHubUrl("https://github.com/{$this->getGitHub()}/");
-        }
-
-        if ($this->getLinkedIn()) {
-            $this->setLinkedInUrl("https://www.linkedin.com/in/{$this->getLinkedIn()}");
-        }
-
-        if ($this->getMessenger()) {
-            $this->setMessengerUrl("https://m.me/{$this->getMessenger()}");
-        }
-
-        if ($this->getSkype()) {
-            $this->setSkypeUrl("skype:{$this->getSkype()}?chat");
-        }
-
-        if ($this->getTelegram()) {
-            $this->setTelegramUrl("https://t.me/{$this->getTelegram()}");
-        }
-
-    }
-}
 
 function set_portfolio_data(): PortfolioPlaceHolders
 {
 
     $portfolio = PortfolioPlaceHolders::instance();
+
+    $res = $portfolio->updateSkillsFromJsonFile();
 
     $portfolio->setFullName("Olivia Williams");
     $portfolio->setAboutMeFirstLine("<span>Hi I'm</span> {$portfolio->getFullName()} de PHPse.");
@@ -170,16 +55,16 @@ function set_portfolio_data(): PortfolioPlaceHolders
     // $portfolio->setShowContactForm(false);
 
     $portfolio->addEduHistoryItem([
-        "imageSrc"         => "images/education-01.png",
-        "imageSrcSet"      => "images/education-01.png 1x, images/education-01@2x.png 2x",
-        "eduTitle"         => "M.Sc. Computer Science",
-        "eduSchool"        => "ETH Zürich",
-        "eduClue"          => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.“",
-        "eduYearMonthFrom" => [2012, 9],
-        "eduYearMonthTo"   => [2014, 6],
+        "imageSrc"      => "images/education-01.png",
+        "imageSrcSet"   => "images/education-01.png 1x, images/education-01@2x.png 2x",
+        "eduTitle"      => "M.Sc. Computer Science",
+        "eduSchool"     => "ETH Zürich",
+        "eduClue"       => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.“",
+        "dtFrom"        => new_dt(2012, 9, 1),
+        "dtTo"          => new_dt(2014, 6, 1),
 
-        "moreInfoTitle"    => "Lorem Ipsum",
-        "moreInfoDesc"     => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
                                             eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
                                             sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
                                             repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
@@ -190,16 +75,28 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addEduHistoryItem([
-        "imageSrc"         => "images/education-02.png",
-        "imageSrcSet"      => "images/education-02.png 1x, images/education-02@2x.png 2x",
-        "eduTitle"         => "B.Sc. Computer Science",
-        "eduSchool"        => "The University of Tokyo",
-        "eduClue"          => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.”",
-        "eduYearMonthFrom" => [2008, 9],
-        "eduYearMonthTo"   => [2012, 6],
+        "imageSrc"      => "images/education-02.png",
+        "imageSrcSet"   => "images/education-02.png 1x, images/education-02@2x.png 2x",
+        "eduTitle"      => "B.Sc. Computer Science",
+        "eduSchool"     => "The University of Tokyo",
+        "eduClue"       => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.”",
+        "dtFrom"        => new_dt(2008, 9, 1),
+        "dtTo"          => new_dt(2012, 6, 1),
 
-        "moreInfoTitle"    => "Lorem Ipsum",
-        "moreInfoDesc"     => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+        "moreInfoTitle" => "",
+        "moreInfoDesc"  => "",
+    ]);
+
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-01.png",
+        "logoSrcSet"    => "images/experience-01.png 1x, images/experience-01@2x.png 2x",
+        "jobName"       => "Sr. Front-End JavaScript Engineer",
+        "companyName"   => "PayPal",
+        "location"      => "San Jose, CA",
+        "dtFrom"        => new_dt(2008, 9, 1),
+        "dtTo"          => new_dt(2012, 6, 1),
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
                                             eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
                                             sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
                                             repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
@@ -209,23 +106,310 @@ function set_portfolio_data(): PortfolioPlaceHolders
                                             recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
     ]);
 
-    $portfolio->addTestimonialItem(
-        [
-            "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
-                                    reprehenderit dicta quisquam.",
-            "person" => "John Smith, CEO, Wire Inc.",
-        ]
-    );
+    /*
 
-    $portfolio->addTestimonialItem(
-        [
-            "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+    Jan 2016 - Sep 2018
+
+    */
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-02.png",
+        "logoSrcSet"    => "images/experience-02.png 1x, images/experience-02@2x.png 2x",
+        "jobName"       => "Front-End Software Engineer",
+        "companyName"   => "Microsoft",
+        "location"      => "Redmond, WA",
+        "dtFrom"        => new_dt(2016, 1, 1),
+        "dtTo"          => new_dt(2018, 9, 1),
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-3.png",
+        "logoSrcSet"    => "images/experience-03.png 1x, images/experience-03@2x.png 2x",
+        "jobName"       => "Jr. Front-End Software Engineer",
+        "companyName"   => "Amazon",
+        "location"      => "Seattle, WA",
+        "dtFrom"        => new_dt(2014, 9, 1),
+        "dtTo"          => new_dt(2015, 12, 1),
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-01.png",
+        "logoSrcSet"    => "images/experience-01.png 1x, images/experience-01@2x.png 2x",
+        "jobName"       => "Sr. Front-End JavaScript Engineer",
+        "companyName"   => "PayPal",
+        "location"      => "San Jose, CA",
+        "dtFrom"        => new_dt(2008, 9, 1),
+        "dtTo"          => new_dt(2012, 6, 1),
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+
+    /*
+
+    Jan 2016 - Sep 2018
+
+    */
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-02.png",
+        "logoSrcSet"    => "images/experience-02.png 1x, images/experience-02@2x.png 2x",
+        "jobName"       => "Front-End Software Engineer",
+        "companyName"   => "Microsoft",
+        "location"      => "Redmond, WA",
+        "dtFrom"        => new_dt(2016, 1, 1),
+        "dtTo"          => new_dt(2018, 9, 1),
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil adipisci
+                                            eius esse necessitatibus veniam asperiores in pariatur dolorum cum sapiente
+                                            sequi earum laboriosam officiis maiores a suscipit, consectetur rerum
+                                            repellat excepturi est. Ullam quis quae atque soluta quia quas debitis enim
+                                            voluptatibus excepturi eligendi incidunt quibusdam animi sunt ipsam odit,
+                                            laudantium repudiandae mollitia odio. Ad reiciendis incidunt distinctio
+                                            voluptas amet quo ab atque, neque esse architecto nostrum accusantium sint
+                                            recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
+    ]);
+
+    $portfolio->addExperienceItem([
+        "logoSrc"       => "images/experience-3.png",
+        "logoSrcSet"    => "images/experience-03.png 1x, images/experience-03@2x.png 2x",
+        "jobName"       => "Jr. Front-End Software Engineer",
+        "companyName"   => "Amazon",
+        "location"      => "Seattle, WA",
+        "dtFrom"        => new_dt(2014, 9, 1),
+        "dtTo"          => new_dt(2015, 12, 1),
+        "moreInfoTitle" => "",
+        "moreInfoDesc"  => "",
+    ]);
+
+    $portfolio->addTestimonialItem([
+        "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                                     Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
                                     reprehenderit dicta quisquam.",
-            "person" => "Agnes Jackson, CTO, Acme Computers Ltd.",
-        ],                                       
-    );
+        "person" => "John Smith, CEO, Wire Inc.",
+    ]);
+
+    $portfolio->addTestimonialItem([
+        "desc"   => "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Optio adipisci amet voluptate rerum possimus repellendus molestiae consequuntur
+                                    reprehenderit dicta quisquam.",
+        "person" => "Agnes Jackson, CTO, Acme Computers Ltd.",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-01.png",
+        "imgSrcSet"     => "images/project-01.png 1x, images/project-01@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj1/demo/",
+        "sourceUrl"     => "https://www.example.com/proj1/src/",
+    //     "moreInfoTitle" => "Lorem Ipsum",
+    //     "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+    //                             velit aspernatur nam magnam, inventore minima totam ut illo quas!
+    //                             Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+    //                             incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+    //                             quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    // ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-02.png",
+        "imgSrcSet"     => "images/project-02.png 1x, images/project-02@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj2/demo/",
+        // "sourceUrl"     => "https://www.example.com/proj2/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-03.png",
+        "imgSrcSet"     => "images/project-03.png 1x, images/project-03@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        // "demoUrl"       => "https://www.example.com/proj3/demo/",
+        "sourceUrl"     => "https://www.example.com/proj3/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-04.png",
+        "imgSrcSet"     => "images/project-04.png 1x, images/project-04@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj4/demo/",
+        "sourceUrl"     => "https://www.example.com/proj4/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-05.png",
+        "imgSrcSet"     => "images/project-05.png 1x, images/project-05@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj5/demo/",
+        "sourceUrl"     => "https://www.example.com/proj5/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-06.png",
+        "imgSrcSet"     => "images/project-06.png 1x, images/project-06@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj6/demo/",
+        "sourceUrl"     => "https://www.example.com/proj6/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-07.png",
+        "imgSrcSet"     => "images/project-07.png 1x, images/project-07@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj7/demo/",
+        "sourceUrl"     => "https://www.example.com/proj7/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-08.png",
+        "imgSrcSet"     => "images/project-08.png 1x, images/project-08@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj8/demo/",
+        "sourceUrl"     => "https://www.example.com/proj8/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-01.png",
+        "imgSrcSet"     => "images/project-01.png 1x, images/project-01@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj9/demo/",
+        "sourceUrl"     => "https://www.example.com/proj9/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-02.png",
+        "imgSrcSet"     => "images/project-02.png 1x, images/project-02@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj10/demo/",
+        "sourceUrl"     => "https://www.example.com/proj10/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-03.png",
+        "imgSrcSet"     => "images/project-03.png 1x, images/project-03@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj11/demo/",
+        "sourceUrl"     => "https://www.example.com/proj11/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+    $portfolio->addProjectItem([
+        "imgSrc"        => "images/project-04.png",
+        "imgSrcSet"     => "images/project-04.png 1x, images/project-04@2x.png 2x",
+        "title"         => "Project Title",
+        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"       => "https://www.example.com/proj12/demo/",
+        "sourceUrl"     => "https://www.example.com/proj12/src/",
+        "moreInfoTitle" => "Lorem Ipsum",
+        "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+                                velit aspernatur nam magnam, inventore minima totam ut illo quas!
+                                Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+                                incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+                                quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+    ",
+    ]);
+
+
 
     return $portfolio;
 }
@@ -238,7 +422,7 @@ function set_portfolio_labels()
 
     $privacyPolicyUrl = "/privacy-policy/";
     $consentText      = str_replace("[PRIVACY_POLICY_URL]", $privacyPolicyUrl, $lb->getConsentInfoTpl());
-    $lb->setConsentInfo($privacyPolicyUrl);
+    $lb->setConsentInfo($consentText);
 
     return $lb;
 }
