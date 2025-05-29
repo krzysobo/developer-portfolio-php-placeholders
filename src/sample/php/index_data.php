@@ -1,16 +1,27 @@
 <?php
 
-require_once "index_classes.php";
-
-
 function set_portfolio_data(): PortfolioPlaceHolders
 {
 
+    $imgPath = "sample/images";
+
     $portfolio = PortfolioPlaceHolders::instance();
 
-    $res = $portfolio->updateSkillsFromJsonFile();
+    $portfolio->setSkillsDataFileJson("sample/js/config/data.json");
+    $portfolio->updateSkillsFromJsonFile();
 
     $portfolio->setFullName("Olivia Williams");
+    $portfolio->setProfilePictureThumb("$imgPath/thumbnail.jpg");
+    $portfolio->setProfilePictureThumb2X("$imgPath/thumbnail@2x.jpg");
+
+    $portfolio->setProfilePicture("$imgPath/profile.jpg");
+    $portfolio->setProfilePicture2X("$imgPath/profile@2x.jpg");
+    
+    $portfolio->setResumeFilePath("$imgPath/dummy.pdf");
+    $portfolio->setLogoUrl("$imgPath/logo-02.png");
+    $portfolio->setCoverImageUrl("$imgPath/cover.jpg");
+    $portfolio->setLogoUrlSrcSet("$imgPath/logo-02.png 1x, $imgPath/logo-02@2x.png 2x");
+
     $portfolio->setAboutMeFirstLine("<span>Hi I'm</span> {$portfolio->getFullName()} de PHPse.");
     $portfolio->setAboutMeSecondLine("I'm a JavaScript Engineer from the UK.");
     $portfolio->setAboutMeDescription(
@@ -32,10 +43,6 @@ function set_portfolio_data(): PortfolioPlaceHolders
         quasi reprehenderit maiores quae nesciunt non quos at laboriosam dolorum excepturi
         ducimus impedit, eum earum nisi tempore nemo esse! Maiores, architecto?");
 
-    $portfolio->setResumeFilePath("images/dummy.pdf");
-    $portfolio->setLogoUrl("images/logo-02.png");
-    $portfolio->setCoverImageUrl("images/cover.jpg");
-    $portfolio->setLogoUrlSrcSet("images/logo-02.png 1x, images/logo-02@2x.png 2x");
 
     $portfolio->setEmail("name@example.com");
     $portfolio->setPhone("+1-202-555-0124");
@@ -55,8 +62,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     // $portfolio->setShowContactForm(false);
 
     $portfolio->addEduHistoryItem([
-        "imageSrc"      => "images/education-01.png",
-        "imageSrcSet"   => "images/education-01.png 1x, images/education-01@2x.png 2x",
+        "imageSrc"      => "$imgPath/education-01.png",
+        "imageSrcSet"   => "$imgPath/education-01.png 1x, $imgPath/education-01@2x.png 2x",
         "eduTitle"      => "M.Sc. Computer Science",
         "eduSchool"     => "ETH Zürich",
         "eduClue"       => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.“",
@@ -75,8 +82,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addEduHistoryItem([
-        "imageSrc"      => "images/education-02.png",
-        "imageSrcSet"   => "images/education-02.png 1x, images/education-02@2x.png 2x",
+        "imageSrc"      => "$imgPath/education-02.png",
+        "imageSrcSet"   => "$imgPath/education-02.png 1x, $imgPath/education-02@2x.png 2x",
         "eduTitle"      => "B.Sc. Computer Science",
         "eduSchool"     => "The University of Tokyo",
         "eduClue"       => "Thesis: “Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, itaque.”",
@@ -88,8 +95,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-01.png",
-        "logoSrcSet"    => "images/experience-01.png 1x, images/experience-01@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-01.png",
+        "logoSrcSet"    => "$imgPath/experience-01.png 1x, $imgPath/experience-01@2x.png 2x",
         "jobName"       => "Sr. Front-End JavaScript Engineer",
         "companyName"   => "PayPal",
         "location"      => "San Jose, CA",
@@ -112,8 +119,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
 
     */
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-02.png",
-        "logoSrcSet"    => "images/experience-02.png 1x, images/experience-02@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-02.png",
+        "logoSrcSet"    => "$imgPath/experience-02.png 1x, $imgPath/experience-02@2x.png 2x",
         "jobName"       => "Front-End Software Engineer",
         "companyName"   => "Microsoft",
         "location"      => "Redmond, WA",
@@ -130,8 +137,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
                                             recusandae quibusdam quisquam sed a quas minima natus impedit quis eius.",
     ]);
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-3.png",
-        "logoSrcSet"    => "images/experience-03.png 1x, images/experience-03@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-3.png",
+        "logoSrcSet"    => "$imgPath/experience-03.png 1x, $imgPath/experience-03@2x.png 2x",
         "jobName"       => "Jr. Front-End Software Engineer",
         "companyName"   => "Amazon",
         "location"      => "Seattle, WA",
@@ -149,8 +156,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-01.png",
-        "logoSrcSet"    => "images/experience-01.png 1x, images/experience-01@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-01.png",
+        "logoSrcSet"    => "$imgPath/experience-01.png 1x, $imgPath/experience-01@2x.png 2x",
         "jobName"       => "Sr. Front-End JavaScript Engineer",
         "companyName"   => "PayPal",
         "location"      => "San Jose, CA",
@@ -173,8 +180,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
 
     */
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-02.png",
-        "logoSrcSet"    => "images/experience-02.png 1x, images/experience-02@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-02.png",
+        "logoSrcSet"    => "$imgPath/experience-02.png 1x, $imgPath/experience-02@2x.png 2x",
         "jobName"       => "Front-End Software Engineer",
         "companyName"   => "Microsoft",
         "location"      => "Redmond, WA",
@@ -192,8 +199,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addExperienceItem([
-        "logoSrc"       => "images/experience-3.png",
-        "logoSrcSet"    => "images/experience-03.png 1x, images/experience-03@2x.png 2x",
+        "logoSrc"       => "$imgPath/experience-3.png",
+        "logoSrcSet"    => "$imgPath/experience-03.png 1x, $imgPath/experience-03@2x.png 2x",
         "jobName"       => "Jr. Front-End Software Engineer",
         "companyName"   => "Amazon",
         "location"      => "Seattle, WA",
@@ -218,24 +225,24 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-01.png",
-        "imgSrcSet"     => "images/project-01.png 1x, images/project-01@2x.png 2x",
-        "title"         => "Project Title",
-        "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        "demoUrl"       => "https://www.example.com/proj1/demo/",
-        "sourceUrl"     => "https://www.example.com/proj1/src/",
-    //     "moreInfoTitle" => "Lorem Ipsum",
-    //     "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
-    //                             velit aspernatur nam magnam, inventore minima totam ut illo quas!
-    //                             Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
-    //                             incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
-    //                             quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
-    // ",
+        "imgSrc"    => "$imgPath/project-01.png",
+        "imgSrcSet" => "$imgPath/project-01.png 1x, $imgPath/project-01@2x.png 2x",
+        "title"     => "Project Title",
+        "desc"      => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "demoUrl"   => "https://www.example.com/proj1/demo/",
+        "sourceUrl" => "https://www.example.com/proj1/src/",
+        //     "moreInfoTitle" => "Lorem Ipsum",
+        //     "moreInfoDesc"  => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet aut
+        //                             velit aspernatur nam magnam, inventore minima totam ut illo quas!
+        //                             Aperiam, similique. Culpa quod possimus debitis et repellendus sequi ex
+        //                             incidunt. Doloribus nobis itaque reiciendis quidem dolor at similique
+        //                             quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
+        // ",
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-02.png",
-        "imgSrcSet"     => "images/project-02.png 1x, images/project-02@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-02.png",
+        "imgSrcSet"     => "$imgPath/project-02.png 1x, $imgPath/project-02@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj2/demo/",
@@ -250,8 +257,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-03.png",
-        "imgSrcSet"     => "images/project-03.png 1x, images/project-03@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-03.png",
+        "imgSrcSet"     => "$imgPath/project-03.png 1x, $imgPath/project-03@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         // "demoUrl"       => "https://www.example.com/proj3/demo/",
@@ -266,8 +273,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-04.png",
-        "imgSrcSet"     => "images/project-04.png 1x, images/project-04@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-04.png",
+        "imgSrcSet"     => "$imgPath/project-04.png 1x, $imgPath/project-04@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj4/demo/",
@@ -282,8 +289,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-05.png",
-        "imgSrcSet"     => "images/project-05.png 1x, images/project-05@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-05.png",
+        "imgSrcSet"     => "$imgPath/project-05.png 1x, $imgPath/project-05@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj5/demo/",
@@ -298,8 +305,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-06.png",
-        "imgSrcSet"     => "images/project-06.png 1x, images/project-06@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-06.png",
+        "imgSrcSet"     => "$imgPath/project-06.png 1x, $imgPath/project-06@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj6/demo/",
@@ -314,8 +321,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-07.png",
-        "imgSrcSet"     => "images/project-07.png 1x, images/project-07@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-07.png",
+        "imgSrcSet"     => "$imgPath/project-07.png 1x, $imgPath/project-07@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj7/demo/",
@@ -330,8 +337,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-08.png",
-        "imgSrcSet"     => "images/project-08.png 1x, images/project-08@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-08.png",
+        "imgSrcSet"     => "$imgPath/project-08.png 1x, $imgPath/project-08@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj8/demo/",
@@ -346,8 +353,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-01.png",
-        "imgSrcSet"     => "images/project-01.png 1x, images/project-01@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-01.png",
+        "imgSrcSet"     => "$imgPath/project-01.png 1x, $imgPath/project-01@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj9/demo/",
@@ -362,8 +369,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-02.png",
-        "imgSrcSet"     => "images/project-02.png 1x, images/project-02@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-02.png",
+        "imgSrcSet"     => "$imgPath/project-02.png 1x, $imgPath/project-02@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj10/demo/",
@@ -378,8 +385,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-03.png",
-        "imgSrcSet"     => "images/project-03.png 1x, images/project-03@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-03.png",
+        "imgSrcSet"     => "$imgPath/project-03.png 1x, $imgPath/project-03@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj11/demo/",
@@ -394,8 +401,8 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ]);
 
     $portfolio->addProjectItem([
-        "imgSrc"        => "images/project-04.png",
-        "imgSrcSet"     => "images/project-04.png 1x, images/project-04@2x.png 2x",
+        "imgSrc"        => "$imgPath/project-04.png",
+        "imgSrcSet"     => "$imgPath/project-04.png 1x, $imgPath/project-04@2x.png 2x",
         "title"         => "Project Title",
         "desc"          => "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "demoUrl"       => "https://www.example.com/proj12/demo/",
@@ -408,8 +415,6 @@ function set_portfolio_data(): PortfolioPlaceHolders
                                 quod cumque ea dolorem, nostrum molestiae ab sit omnis odio repudiandae?
     ",
     ]);
-
-
 
     return $portfolio;
 }

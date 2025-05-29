@@ -1,8 +1,8 @@
 <h1 align="center">
-  developer-portfolio
+  developer-portfolio-php-placeholders, based on developer-portfolio
 </h1>
 <p align="center">
-  A single-page personal portfolio for <a href="https://www.msof.me/" target="_blank">www.msof.me</a> based on Google Material Design guidelines. To view a live demo, <a href="https://pictureelement.github.io/developer-portfolio/" target="_blank">click here</a>
+  A single-page personal portfolio for <a href="https://www.msof.me/" target="_blank">www.msof.me</a> based on Google Material Design guidelines. To view a live demo of the original developer-portfolio, <a href="https://pictureelement.github.io/developer-portfolio/" target="_blank">click here</a>.
 </p>
 
 ![demo-1](https://raw.githubusercontent.com/PictureElement/developer-portfolio/master/images/demo-1.png)
@@ -40,11 +40,19 @@ Whichever of the above you choose, at this point the page is ready to go and you
 
 ## Customization
 
-### Personal logo
+
+### PHP Version
+For the PHP version, all customization is based on images and PHP files - see the directory "sample/".
+I recommend that you kept it for reference and created your own in some other directory, as "actual"; the directory "actual"
+alraedy has the subdir structure created and is used by `gulp build`. You may put your work into another subdirectory,
+but please remember about the `gulpfile.js` and image URLs!
+
+### Static version
+#### Personal logo
 
 The template supports two types of personal logos, a logomark (default) and a logotype.
 You can choose either one by commenting the markup of the one type you are not interested in.
-The logo-related markup can be found in `index.htm` within the `<header>` tag.
+The logo-related markup can be found in `index.html` within the `<header>` tag.
 
 Markup for the Logomark:
 
@@ -54,17 +62,17 @@ Markup for the Logotype:
 
 `<a data-aos="zoom-in" data-aos-duration="700" data-aos-once="true" class="top-bar__logotype" href=".">Olivia</a>`
 
-### Favicon
+#### Favicon - for both versions
 
 Visit [this](https://favicon.io/favicon-converter/) page, upload your desired image and generate your favicon files. Download the files and place them in the root directory of your project, replacing the default ones.
 
-### Google Fonts
+#### Google Fonts
 
 The template's default fonts are _Raleway_ (primary), _Montserrat_ (secondary) and _Abril Fatface_ (logotype).
 
 To change the fonts modify the stylesheet link located in `index.html` (within the `<head>` tag) to request your desired web fonts. Ensure to define the new fonts in `sass/developerportfolio.scss` file as well (see _Styling_ section below).
 
-### Styling
+### Styling - for both versions
 
 In general, most styles on the page are based off the definitions of variables in the _VARIABLES_ section in `sass/developerportfolio.scss` file.
 

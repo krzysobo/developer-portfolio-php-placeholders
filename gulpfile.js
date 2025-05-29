@@ -96,6 +96,7 @@ function copyImages() {
         .pipe(dest('dist/images'));
 }
 
+
 // Copy vendor to dist
 function copyVendor() {
     // encoding: false is VERY IMPORTANT, otherwise files get broken/corrupted
@@ -111,6 +112,22 @@ function copyHtmlWithPhp() {
     return src(['src/*.html', 'src/**/*.php', '!src/index.html'],
         { encoding: false })
         .pipe(dest('dist'));
+}
+
+function copyAllSampleData() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src(['src/sample/**/*'],
+        { encoding: false })
+        .pipe(dest('dist/sample'));
+}
+
+function copyAllActualData() {
+    // encoding: false is VERY IMPORTANT, otherwise images get broken/corrupted
+    // https://stackoverflow.com/questions/78391263/copying-images-with-gulp-are-corrupted-damaged
+    return src(['src/actual/**/*'],
+        { encoding: false })
+        .pipe(dest('dist/actual'));
 }
 
 function copyHtmlStatic() {
@@ -291,7 +308,7 @@ function watchFiles() {
 
 // Define tasks
 const initStatic = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtmlStatic);
-const init = series(cleanDist, cleanVendor, populateVendor, copyImages, copyVendor, copyHtmlWithPhp);
+const init = series(cleanDist, cleanVendor, populateVendor, copyImages, copyAllSampleData, copyAllActualData, copyVendor, copyHtmlWithPhp);
 
 // const build = gulp.series(init, compileSass, css, js, criticalCSS);
 const buildStatic = series(initStatic, compileSass, installCss, installJs, installJsConfig, installCriticalCSS);

@@ -1,6 +1,9 @@
 dist
 dist/
 dist/*
+actual
+actual/
+actual/*
 
 node_modules/
 src/vendor

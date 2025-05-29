@@ -10,6 +10,16 @@ function showSkillsChart() {
 
 $(document).ready(function () {
 
+    var skillsDataFile = "sample/js/config/data.json";
+
+    var skillsFileLocation$ = jQuery("#skills-file-location");
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX SKILLS FILE LOCATION $ ", skillsFileLocation$, "length ", skillsFileLocation$.length, "val ", skillsFileLocation$.val());
+    if ((skillsFileLocation$.length > 0) && (skillsFileLocation$.val() != "")) {
+        skillsDataFile = skillsFileLocation$.val();
+    }
+
+    console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ SKILLS DATA FILE: ", skillsDataFile);
+
     // Make top bar react to user's scroll
     var topBar = document.querySelector(".top-bar");
     var headroom = new Headroom(topBar);
@@ -43,7 +53,7 @@ $(document).ready(function () {
         return response.json();
     }
 
-    fetch('js/config/data.json')
+    fetch(skillsDataFile)
         .then(status)
         .then(json)
         .then(function (response) {

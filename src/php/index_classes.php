@@ -67,6 +67,13 @@ class PortfolioPlaceHolders
     private $fullName      = "";
     private $copyrightLine = "© 2025 Your Name. All rights reserved.";
 
+    private $profilePicture = "";
+    private $profilePicture2X = "";
+    private $profilePictureThumb = "";
+    private $profilePictureThumb2X = "";
+
+    private $skillsDataFileJson = "";
+
     private $aboutMeFirstLine   = "";
     private $aboutMeSecondLine  = "";
     private $aboutMeDescription = "";

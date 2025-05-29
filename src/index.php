@@ -5,9 +5,33 @@
     <?php
         ini_set("display_errors", "1");
         error_reporting(E_ALL);
-        require_once "php/index_data.php";
-        $portfolio = set_portfolio_data();        
-        $lb = set_portfolio_labels();
+        require_once "php/index_classes.php";
+
+        if (file_exists("php/index_data.php")) {
+            require_once "php/index_data.php";
+        } elseif (file_exists("sample/php/index_data.php")) {
+            require_once "sample/php/index_data.php";
+        } else {
+            ini_set("display_errors", "1");
+            error_reporting(E_ALL);
+            throw new \Exception("index_data.php not found either in php or sample/php. Quitting.");
+        }
+
+        if (function_exists('set_portfolio_data')) {
+            $portfolio = set_portfolio_data();        
+        } else {
+            ini_set("display_errors", "1");
+            error_reporting(E_ALL);
+            throw new \Exception("function set_portfolio_data not found. Quitting.");
+        }
+
+        if (function_exists('set_portfolio_labels')) {
+            $lb = set_portfolio_labels();
+        } else {
+            ini_set("display_errors", "1");
+            error_reporting(E_ALL);
+            throw new \Exception("function set_portfolio_labels not found. Quitting.");
+        }
 
     ?>
 
@@ -35,7 +59,7 @@
     <link rel="stylesheet" href="css/developerportfolio.css">
 </head>
 
-<body id="top">
+<body id="top"><input type="hidden" value="<?= $portfolio->getSkillsDataFileJson() ?>" id="skills-file-location" />
     <!-- Header -->
     <header class="top-bar top-bar--fixed d-flex headroom justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -73,8 +97,8 @@
     <!-- Navigation drawer -->
     <aside id="sidenav" class="sidenav">
         <div class="sidenav__header">
-            <img class="sidenav__image responsive-img" alt="Profile picture" src="images/thumbnail.jpg"
-                srcset="images/thumbnail.jpg 1x, images/thumbnail@2x.jpg 2x" loading="lazy" width="64" height="64">
+            <img class="sidenav__image responsive-img" alt="Profile picture" src="<?= $portfolio->getProfilePictureThumb(); ?>"
+                srcset="<?= $portfolio->getProfilePictureThumb(); ?> 1x, <?= $portfolio->getProfilePictureThumb(); ?> 2x" loading="lazy" width="64" height="64">
             <h3 class="sidenav__title"><?php echo $portfolio->getFullName(); ?></h3>
             <h6 class="sidenav__subtitle"><a href="mailto:<?php echo $portfolio->getEmail(); ?>"><?php echo $portfolio->getEmail(); ?></a></h6>
         </div>
@@ -118,8 +142,8 @@
                         <div data-aos="flip-up" data-aos-once="true" class="lead-card card">
                             <div class="lead-card__main">
                                 <div class="lead-card__media">
-                                    <img src="images/profile.jpg"
-                                        srcset="images/profile.jpg 1x, images/profile@2x.jpg 2x" alt="Profile picture"
+                                    <img src="<?= $portfolio->getProfilePicture(); ?>"
+                                        srcset="<?= $portfolio->getProfilePicture(); ?> 1x, <?= $portfolio->getProfilePicture2X(); ?> 2x" alt="Profile picture"
                                         draggable="false">
                                 </div>
                                 <div class="lead-card__content card-content">
