@@ -298,7 +298,7 @@
                             <?php for($r = 0; $r < $noRows; $r++): ?>
                                 <div class="row mb-0">
                                     <?php for($c = 0; $c < $noCols; $c++): ?>
-                                        <div class="col s12 m6 xl3 projects-section__col">
+                                        <div class="col s12 m6 xl3 projects-section__col" >
                                             <?php $item = $projects[$projI]; ?>
                                           <!-- Project $projI -->  
                                             <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="200"
@@ -318,7 +318,7 @@
                                                 </div>
                                                 <div class="card-content">
                                                     <div class="basic-card__primary card-primary">
-                                                        <h3 class="card-title activator"><?= $item['title']; ?></h3>
+                                                        <h3 class="card-title activator" style="font-size: 14px; font-weight:bold"><?= $item['title']; ?></h3>
                                                     </div>
                                                     <div class="card-secondary">
                                                         <?= $item['desc']; ?>
@@ -348,8 +348,8 @@
                                                 </div>
                                                 <?php if((!empty($item["moreInfoTitle"])) && (!empty($item["moreInfoDesc"]))): ?>
                                                     <div class="card-reveal" data-simplebar>
-                                                        <div class="basic-card__primary card-primary">
-                                                            <h3 class="card-title"><?= $item["moreInfoTitle"]; ?></h3>
+                                                        <div class="basic-card__primary card-primary" style="width: 85%; text-align: left;">
+                                                            <h3 class="card-title" style="font-size: 15px; font-weight:bold;"><?= $item["moreInfoTitle"]; ?></h3>
                                                         </div>
                                                         <div class="card-secondary">
                                                             <?= $item["moreInfoDesc"]; ?>

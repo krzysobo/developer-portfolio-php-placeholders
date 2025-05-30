@@ -142,11 +142,13 @@ class PortfolioPlaceHolders
         $this->skills[] = $item;
     }
 
-    public function updateSkillsFromJsonFile($filePath = "js/config/data.json")
+    public function updateSkillsFromJsonFile()
     {
-        if (! file_exists($filePath)) {
+        if ((empty($this->skillsDataFileJson)) || (! file_exists($this->skillsDataFileJson))) {
             return [];
         }
+
+        $filePath = $this->skillsDataFileJson;
 
         $skillsText = file_get_contents($filePath);
         if (empty($skillsText)) {
