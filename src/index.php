@@ -227,11 +227,13 @@
                             <article class="timeline__box">
                                 <div class="timeline__wrapper">
                                     <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="<?php echo $item["logoSrc"];?>"
-                                                srcset="<?php echo $item["logoSrcSet"];?>"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
+                                        <?php if (!empty($item["logoSrc"])): ?>
+                                            <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
+                                                    src="<?php echo $item["logoSrc"];?>"
+                                                    srcset="<?php echo $item["logoSrcSet"];?>"
+                                                    alt="Company logo" draggable="false" loading="lazy" width="42"
+                                                    height="42"></a>
+                                        <?php endif; ?>
                                         <div class="card-content">
                                             <div class="horizontal-card__primary card-primary">
                                                 <h3 class="card-title activator"><?php echo $item["jobName"];?></h3>
@@ -300,10 +302,17 @@
                                             <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="200"
                                                 data-aos-once="true" class="basic-card card">
                                                 <div class="card-image">
-                                                    <img class="responsive-img" src="<?= $item['imgSrc']; ?>"
-                                                        srcset="<?= $item['imgSrcSet']; ?>"
-                                                        alt="Project thumbnail" draggable="false" loading="lazy" width="540"
-                                                        height="405">
+                                                    <?php if(!empty($item['imgSrc'])): ?>
+                                                        <img class="responsive-img" src="<?= $item['imgSrc']; ?>"
+                                                            srcset="<?= $item['imgSrcSet']; ?>"
+                                                            alt="Project thumbnail" draggable="false" loading="lazy" width="540"
+                                                            height="405">
+                                                    <?php else: ?>
+                                                        <img class="responsive-img" src="<?= $portfolio->getDefaultProjectImgSrc(); ?>"
+                                                            srcset="<?= $portfolio->getDefaultProjectImgSrcSet(); ?>"
+                                                            alt="Project thumbnail" draggable="false" loading="lazy" width="540"
+                                                            height="405">
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="card-content">
                                                     <div class="basic-card__primary card-primary">
@@ -471,11 +480,13 @@
                             <?php foreach($portfolio->getEduHistory() as $item): ?>
                                 <article>
                                     <div class="horizontal-card card">
-                                        <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
-                                                src="<?= $item["imageSrc"]; ?>"
-                                                srcset="<?= $item["imageSrcSet"]; ?>"
-                                                alt="Company logo" draggable="false" loading="lazy" width="42"
-                                                height="42"></a>
+                                        <?php if(!empty($item["imageSrc"])): ?>
+                                            <a href="#" target="_blank" rel="noopener"><img class="border responsive-img"
+                                                    src="<?= $item["imageSrc"]; ?>"
+                                                    srcset="<?= $item["imageSrcSet"]; ?>"
+                                                    alt="Company logo" draggable="false" loading="lazy" width="42"
+                                                    height="42"></a>
+                                        <?php endif; ?>
                                         <div class="card-content">
                                             <div class="horizontal-card__primary card-primary">
                                                 <h3 class="card-title card-title activator"><?= $item["eduTitle"]; ?></h3>

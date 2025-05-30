@@ -72,6 +72,9 @@ class PortfolioPlaceHolders
     private $profilePictureThumb = "";
     private $profilePictureThumb2X = "";
 
+    private $defaultProjectImgSrc = "";
+    private $defaultProjectImgSrcSet = "";
+
     private $skillsDataFileJson = "";
 
     private $aboutMeFirstLine   = "";

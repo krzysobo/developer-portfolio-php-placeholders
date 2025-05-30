@@ -416,6 +416,14 @@ function set_portfolio_data(): PortfolioPlaceHolders
     ",
     ]);
 
+
+    // 527 x 396
+    $portfolio->setDefaultProjectImgSrc("$imgPath/default-project-image-php.png");
+
+    // 1054 x 791
+    $portfolio->setDefaultProjectImgSrcSet(
+        "$imgPath/default-project-image-php.png 1x, $imgPath/default-project-image-php@2x.png 2x");
+
     return $portfolio;
 }
 
