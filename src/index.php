@@ -7,10 +7,12 @@
         error_reporting(E_ALL);
         require_once "php/index_classes.php";
 
-        if (file_exists("php/index_data.php")) {
-            require_once "php/index_data.php";
-        } elseif (file_exists("sample/php/index_data.php")) {
+        if (file_exists("actual/php/index_data.php")) {
+            require_once "actual/php/index_data.php";
+        }elseif (file_exists("sample/php/index_data.php")) {
             require_once "sample/php/index_data.php";
+        }elseif (file_exists("php/index_data.php")) {
+            require_once "php/index_data.php";
         } else {
             ini_set("display_errors", "1");
             error_reporting(E_ALL);
